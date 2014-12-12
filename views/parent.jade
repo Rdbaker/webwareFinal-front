@@ -4,7 +4,7 @@ html(lang="en")
   // the html head
   head
     // the title of the page
-    title= 'Stock Game'
+    title= 'Stock Rush'
 
     // vendor libraries
     script(type='text/javascript' src='https://code.jquery.com/jquery-2.1.1.min.js')
@@ -29,7 +29,7 @@ html(lang="en")
     .container
       .navbar.navbar-inverse
         .navbar-header
-          a.navbar-brand Stock Game
+          a.navbar-brand Stock Rush
         .navbar-collapse.collapse.navbar-responsive-collapse
           ul.nav.navbar-nav
             li#home-btn
@@ -37,6 +37,7 @@ html(lang="en")
             li#stocks-btn
               a(href='/browse') Browse Stocks
           ul.nav.navbar-nav.navbar-right
-            li
+            li#logout-btn
+              form.hidden(method='post' action='/logout')
               a Logout
       block content

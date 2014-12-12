@@ -3,14 +3,20 @@ $(document).ready(function() {
 
     // validate the email input
     function validateEmail() {
+      // get the email input value
       var input = $('#email-input').val();
+      // the email regex
       var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      // check if the input is good
       var good = re.test(input);
       if(good) {
+        // if it's good, let the user know
         $('#email-group').removeClass('has-error');
       } else {
+        // if it's not good, let the user know
         $('#email-group').addClass('has-error');
       }
+      // return whether it was good or not
       return good;
     }
 
@@ -19,10 +25,13 @@ $(document).ready(function() {
       // as long as it's not empty I guess that's okay
       var good = !!$('#pw-input').val();
       if(good) {
+        // if it's good, let the user know
         $('#pw-group').removeClass('has-error');
       } else {
+        // if it's not good, let the user know
         $('#pw-group').addClass('has-error');
       }
+      // return whether it was good or not
       return good;
     }
 
