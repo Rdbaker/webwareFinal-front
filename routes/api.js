@@ -30,6 +30,15 @@ module.exports = function(app, reqs) {
     res.send(fn(obj));
   });
 
+  // GET the browse stocks view
+  app.get('/browse-view', function(req, res) {
+    // set the locals
+    var obj ={};
+    var fn = reqs.jade.compileFile('./templates/browse-view.jade', obj);
+    // send back the compiled jade file
+    res.send(fn(obj));
+  });
+
   // --------------- END HOME PAGE VIEWS -----------------
 
 };
