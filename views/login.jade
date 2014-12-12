@@ -1,0 +1,42 @@
+doctype html
+// use english
+html(lang="en")
+  // the html head
+  head
+    // the title of the page
+    title= 'Stock Game'
+
+    // vendor libraries
+    script(type='text/javascript' src='https://code.jquery.com/jquery-2.1.1.min.js')
+
+    // source javascripts
+    script(type='text/javascript' src='js/login.js')
+
+    // css stylings
+    link(rel='stylesheet' type='text/css' href='http://bootswatch.com/journal/bootstrap.min.css')
+    link(rel='stylesheet' type='text/css' href='css/login.css')
+
+  // the body of the document
+  body
+    // the container div for the whole page
+    .container
+      // the div for the title
+      .title.text-center
+        h1 Stock Game
+        .subtitle.
+          Play a game with friends and learn about the stock market
+      // the div which contains the credentials form
+      .well.text-center#login-form
+        form.form-horizontal(method='post')
+          .form-group#email-group
+            label.col-lg-2.control-label Email
+            .col-lg-10
+              input.form-control#email-input(type="text" placeholder="Email")
+          .form-group#pw-group
+            label.col-lg-2.pw-label.control-label Password
+            .col-lg-10
+              input.form-control#pw-input(type="password" placeholder="Password")
+          .btn.btn-large.btn-info#login-btn.
+            Login
+          .btn.btn-large.btn-success#signup-btn.
+            Signup

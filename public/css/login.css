@@ -1,0 +1,15 @@
+#login-form {
+  width: 50%;
+  margin-left: 25%;
+  margin-top: 50px;
+}
+
+#login-btn,
+#signup-btn {
+  width: 25%;
+  margin: 2%;
+}
+
+#pw-input {
+  margin-top: 5px;
+}
