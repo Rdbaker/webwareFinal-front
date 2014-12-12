@@ -1,0 +1,21 @@
+.footer {
+  width: 100%;
+  background-color: #eee;
+  height: 100px;
+  margin-top: 200px;
+}
+
+.authors > p {
+  margin: 0;
+  font-size: 12px;
+}
+
+.authors {
+  float: left;
+}
+
+.info {
+  float: right;
+  margin-right: 0;
+  margin-bottom: 0;
+}

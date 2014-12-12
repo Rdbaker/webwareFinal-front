@@ -21,12 +21,13 @@ html(lang="en")
     // css stylings
     block stylesheets
       link(rel='stylesheet' type='text/css' href='http://bootswatch.com/journal/bootstrap.min.css')
-      link(rel='stylesheet' type='text/css' href='css/styling.css')
+      link(rel='stylesheet' type='text/css' href='css/parent.css')
 
   // the body of the document
   body
     // the container div for the whole page
     .container
+      // the navbar
       .navbar.navbar-inverse
         .navbar-header
           a.navbar-brand Stock Rush
@@ -40,4 +41,7 @@ html(lang="en")
             li#logout-btn
               form.hidden(method='post' action='/logout')
               a Logout
+      // where the view will go
       block content
+
+    include ./footer.jade

@@ -1,11 +1,14 @@
 module.exports = function(app, reqs) {
   // GET the login page
   app.get('/', function(req, res) {
+    // set the options
+    var options = {};
     // set the locals
-    var obj = {};
-    var fn = reqs.jade.compileFile('./views/login.jade', obj);
+    var locals = {};
+
+    var fn = reqs.jade.compileFile('./views/login.jade', options);
     // send back the compiled jade file
-    res.send(fn(obj));
+    res.send(fn(locals));
   });
 
   // POST to the login route
@@ -24,20 +27,26 @@ module.exports = function(app, reqs) {
 
   // GET the home view
   app.get('/home', function(req, res) {
+    // set the options
+    var options = {};
     // set the locals
-    var obj = {};
-    var fn = reqs.jade.compileFile('./views/home.jade', obj);
+    var locals = {};
+
+    var fn = reqs.jade.compileFile('./views/home.jade', options);
     // send back the compiled jade file
-    res.send(fn(obj));
+    res.send(fn(locals));
   });
 
   // GET the browse stocks view
   app.get('/browse', function(req, res) {
+    // set the options
+    var options = {};
     // set the locals
-    var obj = {};
-    var fn = reqs.jade.compileFile('./views/browse.jade', obj);
+    var locals = {};
+
+    var fn = reqs.jade.compileFile('./views/browse.jade', options);
     // send back the compiled jade file
-    res.send(fn(obj));
+    res.send(fn(locals));
   });
 
   // POST the logout and return to the login page

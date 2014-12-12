@@ -1,0 +1,26 @@
+#game-btn {
+  width: 30%;
+}
+
+#leaderboard-view {
+  width: 40%;
+  float: left;
+}
+
+#rank {
+  width: 10%;
+}
+
+#username {
+  width: 35%;
+}
+
+#user-stock-view {
+  width: 55%;
+  margin-left: 5%;
+  float: right;
+}
+
+#games-view {
+  margin-bottom: 60px;
+}

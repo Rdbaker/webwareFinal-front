@@ -1,2 +1,17 @@
-.wrapper.
-  This is where the info for the game and choosing the game will go
+.wrapper
+  .h3 Open Games
+  table.table.table-striped.table-hover#games
+    thead
+      tr
+        th Name
+        th Your Net Worth
+    tbody
+  .text-center
+    .btn.btn-info#game-btn(data-toggle="modal" data-target="#new-game") New Game
+  .modal#new-game
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type="button" data-dismiss="modal" aria-hidden="true") x
+          h3 Start A New Game
+

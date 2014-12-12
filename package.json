@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "express": "^4.10.1",
-    "jade": "^1.7.0",
+    "jade": "^1.8.0",
     "mocha": "^2.0.1",
     "request": "^2.47.0"
   }
