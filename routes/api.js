@@ -34,7 +34,7 @@ module.exports = function(app, reqs) {
   app.get('/browse-view', function(req, res) {
     // set the locals
     var obj ={};
-    var fn = reqs.jade.compfileFile('./templates/browse-view.jade', obj);
+    var fn = reqs.jade.compileFile('./templates/browse-view.jade', obj);
     // send back the compiled jade file
     res.send(fn(obj));
   });
