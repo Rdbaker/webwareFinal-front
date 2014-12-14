@@ -7,11 +7,12 @@
         th Your Net Worth
     tbody
   .text-center
-    .btn.btn-info#game-btn(data-toggle="modal" data-target="#new-game") New Game
-  .modal#new-game
-    .modal-dialog
-      .modal-content
-        .modal-header
-          button.close(type="button" data-dismiss="modal" aria-hidden="true") x
-          h3 Start A New Game
-
+    .btn.btn-info#game-btn New Game
+  form.text-center.form-horizontal#new-game-form
+    fieldset
+      .form-group
+        label.col-lg-2.control-label Game Name
+        .col-lg-10
+          input#game-name.form-control(type='text' placeholder='Name')
+      .btn.btn-success#create-game Create Game
+      .btn.btn-primary#cancel-game Cancel

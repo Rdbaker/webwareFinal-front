@@ -14,6 +14,9 @@
           // the games for the user
           // then make a table from it
           _this.makeTableFromGames([{ name: 'test', val: 100}]);
+
+          // close the new game form
+          $("#new-game-form", $(_this.el)).hide();
         });
       })(this);
     },
@@ -40,9 +43,44 @@
       }
     },
 
+    // open the newGame form
+    newGame: function() {
+      // open the form
+      $("#new-game-form", $(this.el)).slideDown();
+    },
+
+    // close the newGame form and clear the inputs
+    cancelGame: function() {
+      var form = $("#new-game-form", $(this.el));
+      // close the form
+      form.slideUp();
+
+      // clear the form
+      $('input', form).val("");
+    },
+
+    // create the game
+    createGame: function() {
+      // validate the form
+      var good = this.validateForm();
+
+      // send the game information to the server
+      // in an API service request
+
+      // close and clear the form
+      this.cancelGame();
+    },
+
+    // validate the newGame form
+    validateForm: function() {
+      var gameName = $("#game-name").val();
+    },
+
     // set up the events
     events: {
-      'click #game-btn' : 'newGame'
+      'click #game-btn' : 'newGame',
+      'click #cancel-game' : 'cancelGame',
+      'click #create-game' : 'createGame'
     },
 
 
