@@ -3,12 +3,8 @@
 }
 
 #leaderboard-view {
-  width: 40%;
+  width: 30%;
   float: left;
-}
-
-#rank {
-  width: 10%;
 }
 
 #username {
@@ -16,11 +12,35 @@
 }
 
 #user-stock-view {
-  width: 55%;
-  margin-left: 5%;
+  width: 67%;
   float: right;
 }
 
 #games-view {
   margin-bottom: 60px;
+}
+
+#new-game-form {
+  background-color: #eee;
+  width: 50%;
+  margin: 30px auto auto 25%;
+  border-radius: 10px;
+}
+
+#create-game {
+  width: 25%;
+  margin-bottom: 8px;
+  margin-right: 4px;
+}
+
+#cancel-game {
+  width: 25%;
+  margin-bottom: 8px;
+  margin-left: 4px;
+}
+
+
+.form-control {
+  width: 80%;
+  margin-top: 10px;
 }
