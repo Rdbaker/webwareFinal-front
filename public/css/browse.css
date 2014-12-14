@@ -1,8 +1,6 @@
 table, td, th {
-        border: 1px solid green;
+    margin-top: 100px;
     }
     th {
-        background-color: green;
-        color: white;
+        color: gray;
 }
-

@@ -18,7 +18,6 @@
     makeBrowseStocksTable: function(browseStocks){
       var tableBody = $('tableBody', $(browseStocks));
 
-
       var td, tr;
       // make a new row for each stock
       for (var i=0; i<browseStocks.length; i++){
@@ -32,6 +31,11 @@
       }
     },
 
+    /* TODO: add search bar
+    // TODO: when user clicks on a a stock,
+    // have the div slide down and let them have the option
+    // to add it to their portfolio for a specific game
+    (have a drop down of the games they're currently in)*/
 
     // set up the events
     events: {
