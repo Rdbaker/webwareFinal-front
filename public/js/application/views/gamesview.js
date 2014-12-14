@@ -41,6 +41,7 @@
         tr.appendChild(td2);
         tbody[0].appendChild(tr);
       }
+      this.tableRowChangeColor();
     },
 
     // open the newGame form
@@ -74,6 +75,12 @@
     // validate the newGame form
     validateForm: function() {
       var gameName = $("#game-name").val();
+    },
+
+    tableRowChangeColor : function(){
+      $('#games > tbody > tr', $(this.el)).click(function(){
+       $(this).toggleClass("warning");
+     })
     },
 
     // set up the events
