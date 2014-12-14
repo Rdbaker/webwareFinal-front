@@ -10,9 +10,21 @@
     .btn.btn-info#game-btn New Game
   form.text-center.form-horizontal#new-game-form
     fieldset
-      .form-group
+      .form-group#game-name-group
         label.col-lg-2.control-label Game Name
         .col-lg-10
           input#game-name.form-control(type='text' placeholder='Name')
+    fieldset
+      .form-group#game-end-group
+        label.col-lg-2.control-label Winning Net Worth
+        .input-group
+          span.input-group-addon $
+          input#winning-worth.form-control(type="text")
+
+    fieldset
+      .text-center
+        span Other Players
+        span.btn.btn-xs.btn-info#add-player +
+    #btn-container
       .btn.btn-success#create-game Create Game
       .btn.btn-primary#cancel-game Cancel

@@ -39,8 +39,26 @@
   margin-left: 4px;
 }
 
-
 .form-control {
   width: 80%;
+}
+
+#game-name {
   margin-top: 10px;
+}
+
+#winning-worth {
+  width: 77%;
+}
+
+.form-horizontal .control-label {
+  font-size: 0.75em;
+}
+
+#btn-container {
+  margin-top: 45px;
+}
+
+#add-player {
+  margin-left: 15px;
 }

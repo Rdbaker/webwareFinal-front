@@ -41,7 +41,6 @@
         tr.appendChild(td2);
         tbody[0].appendChild(tr);
       }
-      this.tableRowChangeColor();
     },
 
     // open the newGame form
@@ -65,29 +64,56 @@
       // validate the form
       var good = this.validateForm();
 
-      // send the game information to the server
-      // in an API service request
+      if(good) {
+        // send the game information to the server
+        // in an API service request
 
-      // close and clear the form
-      this.cancelGame();
+        // close and clear the form
+        this.cancelGame();
+      }
     },
 
     // validate the newGame form
     validateForm: function() {
-      var gameName = $("#game-name").val();
+      // get the input fields
+      var gameName = $("#game-name");
+
+      // the regex for usernames and for game names
+      var re = /^\w$/;
+
+      // test the game name
+      var good = re.test(gameName.val());
+
+      // if the game name isn't good, let the user know
+      if(!good) {
+        $("#game-name-group").addClass('has-error');
+      } else {
+        $("#game-name-group").removeClass('has-error');
+      }
+
+      // check each of the usernames
+
+      // return the validation result
+      return good;
     },
 
-    tableRowChangeColor : function(){
-      $('#games > tbody > tr', $(this.el)).click(function(){
-       $(this).toggleClass("warning");
-     })
+    // get the game's info and change its color on a click
+    getGameInfo: function(e){
+      // remove any already chosen row
+      $('#warning', $('tbody', $(this.el))).removeClass('warning');
+
+      // add it to the clicked row
+      $(e.currentTarget).addClass('warning');
+
+      // retrieve the info for the game
     },
 
     // set up the events
     events: {
-      'click #game-btn' : 'newGame',
-      'click #cancel-game' : 'cancelGame',
-      'click #create-game' : 'createGame'
+      'click #game-btn'           : 'newGame',
+      'click #cancel-game'        : 'cancelGame',
+      'click #create-game'        : 'createGame',
+      'click #games > tbody > tr' : 'getGameInfo'
     },
 
 

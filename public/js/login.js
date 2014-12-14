@@ -1,20 +1,20 @@
 // this is for the login page
 $(document).ready(function() {
 
-    // validate the email input
-    function validateEmail() {
-      // get the email input value
-      var input = $('#email-input').val();
-      // the email regex
-      var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    // validate the username input
+    function validateUsername() {
+      // get the username input value
+      var input = $('#username-input').val();
+      // the username regex
+      var re = /^\w+$/;
       // check if the input is good
       var good = re.test(input);
       if(good) {
         // if it's good, let the user know
-        $('#email-group').removeClass('has-error');
+        $('#username-group').removeClass('has-error');
       } else {
         // if it's not good, let the user know
-        $('#email-group').addClass('has-error');
+        $('#username-group').addClass('has-error');
       }
       // return whether it was good or not
       return good;
@@ -38,7 +38,7 @@ $(document).ready(function() {
     // send the login
     function sendLogin(e) {
       // validate the form
-      if(!validateEmail() || !validatePassword()) {
+      if(!validateUsername() || !validatePassword()) {
         return;
       }
       // submit the form
@@ -63,7 +63,7 @@ $(document).ready(function() {
     // handle events on the page
     $('#login-btn').on('click', sendLogin);
     $('#signup-btn').on('click', sendSignup);
-    $('#email-input').on('input', validateEmail);
+    $('#username-input').on('input', validateEmail);
     $('#pw-input').on('input', validatePassword);
 
 });
