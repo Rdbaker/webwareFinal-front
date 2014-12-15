@@ -10,16 +10,24 @@ html(lang="en")
     script(type='text/javascript' src='https://code.jquery.com/jquery-2.1.1.min.js')
     script(type='text/javascript' src='http://underscorejs.org/underscore.js')
     script(type='text/javascript' src='http://backbonejs.org/backbone.js')
+    script(type='text/javascript' src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js")
 
     // source javascripts
     block scripts
       script(type='text/javascript' src='js/application.js')
       script(type='text/javascript' src='js/application/services/api_request_service.js')
+      script(type='text/javascript' src='js/application/views/gamesview.js')
+      script(type='text/javascript' src='js/application/views/leaderboardview.js')
+      script(type='text/javascript' src='js/application/views/userstockview.js')
+      script(type='text/javascript' src='js/application/views/browseview.js')
+
 
     // css stylings
     block stylesheets
       link(rel='stylesheet' type='text/css' href='http://bootswatch.com/journal/bootstrap.min.css')
       link(rel='stylesheet' type='text/css' href='css/parent.css')
+      link(rel='stylesheet' type='text/css' href='css/home.css')
+      link(rel='stylesheet' type='text/css' href='css/browse.css')
 
   // the body of the document
   body
@@ -32,14 +40,14 @@ html(lang="en")
         .navbar-collapse.collapse.navbar-responsive-collapse
           ul.nav.navbar-nav
             li#home-btn
-              a(href='/home') Home
+              a(href='javascript: void 0') Home
             li#stocks-btn
-              a(href='/browse') Browse Stocks
+              a(href='javascript: void 0') Browse Stocks
           ul.nav.navbar-nav.navbar-right
             li#logout-btn
               form.hidden(method='post' action='/logout')
               a Logout
       // where the view will go
-      block content
+      #view-injection
 
     include ./footer.jade

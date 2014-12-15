@@ -15,24 +15,24 @@ module.exports = function(app, reqs) {
   app.post('/login', function(req, res) {
     // logic for logging in
     // then redirect to the home page
-    res.redirect('/home');
+    res.redirect('/game');
   });
 
   // POST to the signup route
   app.post('/signup', function(req, res) {
     // logic for signing up
     // then redirect to the home page
-    res.redirect('/home');
+    res.redirect('/game');
   });
 
-  // GET the home view
-  app.get('/home', function(req, res) {
+  // GET the game view
+  app.get('/game', function(req, res) {
     // set the options
     var options = {};
     // set the locals
     var locals = {};
 
-    var fn = reqs.jade.compileFile('./views/home.jade', options);
+    var fn = reqs.jade.compileFile('./views/parent.jade', options);
     // send back the compiled jade file
     res.send(fn(locals));
   });
