@@ -20,11 +20,11 @@
     float: left;
 }
 
-#add-stock-form{
-    background-color: lightgray;
-    width: 50%;
+#add-stock-form {
+    background-color: #eee;
+    width: 100%;
     margin: 30px auto auto 25%;
-    border-radius: 10px;
+    border-radius: 10px
 }
 
 #add-stock-btn{
