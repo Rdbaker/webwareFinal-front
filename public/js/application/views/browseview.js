@@ -16,7 +16,7 @@
 
                     _this.makeBrowseStocksTable([{id: 100, name: 'test', price: 100}]);
 
-                    // close the new game form
+                    // close the new stock form
                     $("#add-stock-form", $(_this.el)).hide();
                 });
             })(this);
@@ -83,7 +83,7 @@
         },
 
         // close the add stock form and clear the inputs
-        cancelGame: function () {
+        cancelAddStock: function () {
             var form = $("#add-stock-form", $(this.el));
             // close the form
             form.slideUp();
@@ -130,12 +130,51 @@
             //    }
             //});
 
-            // todo: when user clicks on a a stock,
-            // have the div slide down and let them have the option
-            // to add it to their portfolio for a specific game
-            //(have a drop down of the games they're currently in)*/
         },
 
+        retrieveGameName: function () {
+            //TODO: activate when API requests work to reach stock server on port 7021
+            //new Application.Services.APIRequestService({
+            //    // type of request
+            //    'type': "POST",
+            //    // endpoint for the API to hit
+            //    'uri': "/games",
+            //    // callback function for the request
+            //    'callback': function (data) {
+            //        // append the data to dropdown in browseview
+            //        // instead of asking for new data from the server
+            //        data = JSON.parse(data);
+            //        var = tr;
+            //        for (var i=0; i < data.length; i++){
+            //          tr = $('<tr/>;
+            //          tr.append("<td>" + data[].name + "</td>");
+
+            //    }
+            //});
+        },
+
+            // send the game information to the server
+            // in an API service request
+              /*  (function (_this) {
+                    new Application.Services.APIRequestService({
+                        // the type of request
+                        'type': 'POST',
+                        // the endpoint for the request
+                        'uri': '/games',
+                        // send the data
+                        'data': {
+                            'name': gameName,
+                            'startvalue': toWin,
+                            'users': names,
+                            'authToken': window.authToken
+                        },
+                        // the callback
+                        'callback': function (data) {
+                            _this.makeTableFromGames({'name': gameName, 'val': 10000});
+                        }
+                    });
+
+        },*/
 
         // todo: when user clicks on a a stock,
         // have the div slide down and let them have the option
@@ -145,7 +184,6 @@
 
         // set up the events
         events: {
-            'click #add-stock-btn': 'addStock',
             'click #cancel': 'cancel',
             'click #submit': 'submit',
             'click #browseStocks > tbody > tr': 'getStockInfo'
