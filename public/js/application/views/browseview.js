@@ -11,7 +11,7 @@
       (function (_this) {
         $.get('/browse-view', function (data) {
           $(_this.el).html(data);
-          _this.makeTableFromGames([{id: 100, name: 'test', price: 100}]);
+          _this.makeBrowseStocksTable([{id: 100, name: 'test', price: 100}]);
 
           // close the new game form
           $("#add-stock-form", $(_this.el)).hide();
@@ -23,7 +23,7 @@
 
     //add id, stockname, price table and sort by most popular
      makeBrowseStocksTable: function (browseStocks) {
-     var tableBody = $('tableBody', $("#browseStocks"));
+     var tbody = $("tbody", $("#browseStocks"));
 
      var td1, td2, td3, tr;
      // make a new row for each stock
@@ -40,7 +40,7 @@
      tr.appendChild(td1);
      tr.appendChild(td2);
      tr.appendChild(td3);
-     tableBody[0].appendChild(tr);
+     tbody[0].appendChild(tr);
   }
 
 
@@ -65,6 +65,7 @@
     retrieveStocksData: function(stockId){
 
     },
+
     // todo: when user clicks on a a stock,
     // have the div slide down and let them have the option
     // to add it to their portfolio for a specific game
@@ -76,7 +77,7 @@
       'click #add-stock-btn': 'addStock',
       'click #cancel': 'cancel',
       'click #submit' : 'submit',
-      'click #browseStocks > tableBody > tr': 'getStockInfo'
+      'click #browseStocks > tbody > tr': 'getStockInfo'
     },
 
 
