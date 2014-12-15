@@ -107,18 +107,19 @@
 
 
             // retrieve the info for the game
-
             this.retrieveLeaderBoardData(e);
+            this.retrieveMyStockPortfolioData(e);
 
         },
         retrieveLeaderBoardData: function (gamename) {
-            // TODO: create an API request service caller, review end point
 
+            // TODO: create an API request service caller, review end point
+            //var gameNameTxt = gamename.currentTarget.childNodes[0].innerText;
             //new Application.Services.APIRequestService({
             //    // type of request
             //    'type': "GET",
             //    // endpoint for the API to hit
-            //    'uri': "/"+gamename.name + "/leaderboard",
+            //    'uri': "/"+gameNameTxt + "/leaderboard",
             //    // callback function for the request
             //    'callback': function (data) {
             //        // append the data to Leader board table
@@ -144,7 +145,6 @@
             //            // append the row to the body
             //            tbody.append(row);
             //        }
-            //        this.retrieveLeaderBoardData(gamename);
             //    }
             //
             //});
@@ -152,12 +152,14 @@
         },
 
         retrieveMyStockPortfolioData: function (gamename) {
+
             // TODO: create an API request service caller, review end points
+            //var gameNameTxt = gamename.currentTarget.childNodes[0].innerText;
             //new Application.Services.APIRequestService({
             //    // type of request
             //    'type': "GET",
             //    // endpoint for the API to hit
-            //    'uri': "/"+gamename.name + "/stocks",
+            //    'uri': "/"+gameNameTxt + "/stocks",
             //    // callback function for the request
             //    'callback': function (data) {
             //        // append the data to Leader board table
@@ -172,7 +174,6 @@
             //            stockName = document.createElement("td");
             //            NumOwned = document.createElement("td");
             //            CostperShare = document.createElement("td");
-            //            BuySell = document.createElement("td");
             //
             //            // put the content in the row
             //            $(stockName).text(data[i].stockName);
@@ -184,7 +185,6 @@
             //            row.appendChild(stockName);
             //            row.appendChild(NumOwned);
             //            row.appendChild(CostperShare);
-            //            row.appendChild(BuySell);
             //
             //            // append the row to the body
             //            tbody.append(row);
