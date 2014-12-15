@@ -22,9 +22,15 @@
 
 #add-stock-form {
     background-color: #eee;
-    width: 100%;
+    width: 50%;
     margin: 30px auto auto 25%;
     border-radius: 10px
+    font-size: 70px;
+}
+
+#stock-group{
+    font-size: 20px;
+
 }
 
 #stock{

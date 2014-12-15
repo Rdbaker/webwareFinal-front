@@ -36,7 +36,7 @@
                 Name = document.createElement('td');
                 Price = document.createElement('td');
                 tr = document.createElement('tr');
-                ID.innerText = browseStocks[i].id;
+                ID.innerText = browseStocks[i].symbol;
                 Name.innerText = browseStocks[i].name;
                 Price.innerText = browseStocks[i].price;
 
@@ -76,8 +76,11 @@
          })
          }),*/
 
+
+
+
         // open the add stock form
-        addStock: function () {
+        addStock: function (e) {
             // open the form
             $("#add-stock-form", $(this.el)).slideDown();
         },
@@ -186,7 +189,7 @@
         events: {
             'click #cancel': 'cancel',
             'click #submit': 'submit',
-            'click #browseStocks > tbody > tr': 'getStockInfo'
+            'click #browseStocks > tbody > tr': 'addStock'
         },
 
 
