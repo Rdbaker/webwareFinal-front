@@ -4,3 +4,29 @@ table, td, th {
     th {
         color: gray;
 }
+
+#searchbar {
+    margin-top: 20px;
+    height: 30px;
+    width: 150px;
+    font-size: 20px;
+    font-family: "Roboto", "Helvetica Neue", Helvecita, Arial, sans-serif;
+    color: #636768;
+    float: left;
+
+}
+
+#add-stock-form{
+    background-color: #636768;
+    width: 50%;
+    margin: 30px auto auto 25%;
+    border-radius: 10px;
+}
+
+#view-stock-form{
+    background-color: #eee;
+    width: 50%;
+    margin: 30px auto auto 25%;
+    border-radius: 10px;
+}
+
