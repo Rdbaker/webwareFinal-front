@@ -11,6 +11,9 @@
       (function (_this) {
         $.get('/browse-view', function (data) {
           $(_this.el).html(data);
+            //make an API request to populate
+            // stock table
+
           _this.makeBrowseStocksTable([{id: 100, name: 'test', price: 100}]);
 
           // close the new game form
@@ -19,32 +22,58 @@
       })(this);
     },
 
-        // TODO: remove once finished testing
-
-    //add id, stockname, price table and sort by most popular
+    //add test id, stockname, price table and sort by most popular
      makeBrowseStocksTable: function (browseStocks) {
-     var tbody = $("tbody", $("#browseStocks"));
+         var tbody = $("tbody", $("#browseStocks"));
 
-     var td1, td2, td3, tr;
-     // make a new row for each stock
-     for (var i = 0; i < browseStocks.length; i++) {
-     td1 = document.createElement('td');
-     td2 = document.createElement('td');
-     td3 = document.createElement('td');
-     tr = document.createElement('tr');
-     td1.innerText = browseStocks[i].id;
-     td2.innerText = browseStocks[i].name;
-     td3.innerText = browseStocks[i].price;
+         var td1, td2, td3, tr;
+         // make a new row for each stock
+         for (var i = 0; i < browseStocks.length; i++) {
+             td1 = document.createElement('td');
+             td2 = document.createElement('td');
+             td3 = document.createElement('td');
+             tr = document.createElement('tr');
+             td1.innerText = browseStocks[i].id;
+             td2.innerText = browseStocks[i].name;
+             td3.innerText = browseStocks[i].price;
 
-     // add it to the table
-     tr.appendChild(td1);
-     tr.appendChild(td2);
-     tr.appendChild(td3);
-     tbody[0].appendChild(tr);
-  }
+             // add it to the table
+             tr.appendChild(td1);
+             tr.appendChild(td2);
+             tr.appendChild(td3);
+             tbody[0].appendChild(tr);
+         }
+     },
 
+    // limit the table to show 10 records at a time
+         makeTableScroll: function(browseStocks){
+             var maxRows = 10;
+             var table = document.getElementById('browseStocks');
+             var rowsInTable = browseStocks.rows.length;
+             var height = 0 ;
 
-    },
+             if (rowsInTable > maxRows){
+                 for (var i=0; i < maxRows; i++) {
+                     height += table.rows[i].clientHeight;
+                 }
+                 wrapper.style.height = height + "px";
+                 }
+             },
+
+      // when user clicks row, display add stock form
+
+      /*$(function(){
+          $('#browseStocks').next().click(function(){
+              $(this).hide();
+
+              var $result = $('#add-stock-form');
+              $('#browseStocks').bootstrapTable({
+
+              }).on('click-row.bs.table', function(e, row, $element) {
+                  $result.text('Event:click-row.bs.table, data: ' + JSON.stringify(row));
+              })
+          })
+      }),*/
 
     // open the add stock form
     addStock: function () {
