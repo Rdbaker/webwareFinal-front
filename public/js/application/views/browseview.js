@@ -51,6 +51,7 @@
              var table = document.getElementById('browseStocks');
              var rowsInTable = browseStocks.rows.length;
              var height = 0 ;
+             var wrapper = browseStocks.parentNode;
 
              if (rowsInTable > maxRows){
                  for (var i=0; i < maxRows; i++) {
@@ -88,12 +89,21 @@
       form.slideUp();
 
       // clear the form
-      $('input', form).val("");
+      $('input', form).price("");
     },
 
-    retrieveStocksData: function(stockId){
+      //add a listener for each row to have something called hidden
+      // and if each substring doesn't match the ID, hide the row
+      // and then all that's left is to submit a GET request
+      // to the API
 
+    retrieveStocksData: function(allStocks){
+        //TODO: connect to server w all the stock info
     },
+
+      retrieveOpenGames: function(openGames){
+          // TODO: call name of games from db to display in dropdown
+      },
 
     // todo: when user clicks on a a stock,
     // have the div slide down and let them have the option
