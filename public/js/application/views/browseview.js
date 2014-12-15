@@ -1,117 +1,151 @@
-(function(window, document, $) {
-  // make a backbone view
-  var BrowseView;
-  BrowseView = Backbone.View.extend({
-    // the tagname for this view's element
-    tagname: "div",
+(function (window, document, $) {
+    // make a backbone view
+    var BrowseView;
+    BrowseView = Backbone.View.extend({
+        // the tagname for this view's element
+        tagname: "div",
 
-    // what to do on initialization
-    initialize: function () {
-      // a little trick to use proper scoping
-      (function (_this) {
-        $.get('/browse-view', function (data) {
-          $(_this.el).html(data);
-            //make an API request to populate
-            // stock table
+        // what to do on initialization
+        initialize: function () {
+            // a little trick to use proper scoping
+            (function (_this) {
+                $.get('/browse-view', function (data) {
+                    $(_this.el).html(data);
+                    //make an API request to populate
+                    // stock table
 
-          _this.makeBrowseStocksTable([{id: 100, name: 'test', price: 100}]);
+                    _this.makeBrowseStocksTable([{id: 100, name: 'test', price: 100}]);
 
-          // close the new game form
-          $("#add-stock-form", $(_this.el)).hide();
-        });
-      })(this);
-    },
+                    // close the new game form
+                    $("#add-stock-form", $(_this.el)).hide();
+                });
+            })(this);
 
-    //add test id, stockname, price table and sort by most popular
-     makeBrowseStocksTable: function (browseStocks) {
-         var tbody = $("tbody", $("#browseStocks"));
+            //TODO: activate when API works and can reach port 7021
+            //this.retrieveCommonStockData();
+        },
 
-         var td1, td2, td3, tr;
-         // make a new row for each stock
-         for (var i = 0; i < browseStocks.length; i++) {
-             td1 = document.createElement('td');
-             td2 = document.createElement('td');
-             td3 = document.createElement('td');
-             tr = document.createElement('tr');
-             td1.innerText = browseStocks[i].id;
-             td2.innerText = browseStocks[i].name;
-             td3.innerText = browseStocks[i].price;
+        //add test id, stockname, price table and sort by most popular
+        makeBrowseStocksTable: function (browseStocks) {
+            var tbody = $("tbody", $("#browseStocks"));
 
-             // add it to the table
-             tr.appendChild(td1);
-             tr.appendChild(td2);
-             tr.appendChild(td3);
-             tbody[0].appendChild(tr);
-         }
-     },
+            var ID, Name, Price, tr;
+            // make a new row for each stock
+            for (var i = 0; i < browseStocks.length; i++) {
+                ID = document.createElement('td');
+                Name = document.createElement('td');
+                Price = document.createElement('td');
+                tr = document.createElement('tr');
+                ID.innerText = browseStocks[i].id;
+                Name.innerText = browseStocks[i].name;
+                Price.innerText = browseStocks[i].price;
 
-    // limit the table to show 10 records at a time
-         makeTableScroll: function(browseStocks){
-             var maxRows = 10;
-             var table = document.getElementById('browseStocks');
-             var rowsInTable = browseStocks.rows.length;
-             var height = 0 ;
+                // add it to the table
+                tr.appendChild(ID);
+                tr.appendChild(Name);
+                tr.appendChild(Price);
+                tbody[0].appendChild(tr);
+            }
+        },
 
-             if (rowsInTable > maxRows){
-                 for (var i=0; i < maxRows; i++) {
-                     height += table.rows[i].clientHeight;
-                 }
-                 wrapper.style.height = height + "px";
-                 }
-             },
+        // limit the table to show 10 records at a time
+        makeTableScroll: function (browseStocks) {
+            var maxRows = 10;
+            var table = document.getElementById('browseStocks');
+            var rowsInTable = browseStocks.rows.length;
+            var height = 0;
 
-      // when user clicks row, display add stock form
+            if (rowsInTable > maxRows) {
+                for (var i = 0; i < maxRows; i++) {
+                    height += table.rows[i].clientHeight;
+                }
+                wrapper.style.height = height + "px";
+            }
+        },
 
-      /*$(function(){
-          $('#browseStocks').next().click(function(){
-              $(this).hide();
+        // when user clicks row, display add stock form
 
-              var $result = $('#add-stock-form');
-              $('#browseStocks').bootstrapTable({
+        /*$(function(){
+         $('#browseStocks').next().click(function(){
+         $(this).hide();
 
-              }).on('click-row.bs.table', function(e, row, $element) {
-                  $result.text('Event:click-row.bs.table, data: ' + JSON.stringify(row));
-              })
-          })
-      }),*/
+         var $result = $('#add-stock-form');
+         $('#browseStocks').bootstrapTable({
 
-    // open the add stock form
-    addStock: function () {
-      // open the form
-      $("#add-stock-form", $(this.el)).slideDown();
-    },
+         }).on('click-row.bs.table', function(e, row, $element) {
+         $result.text('Event:click-row.bs.table, data: ' + JSON.stringify(row));
+         })
+         })
+         }),*/
 
-    // close the add stock form and clear the inputs
-    cancelGame: function () {
-      var form = $("#add-stock-form", $(this.el));
-      // close the form
-      form.slideUp();
+        // open the add stock form
+        addStock: function () {
+            // open the form
+            $("#add-stock-form", $(this.el)).slideDown();
+        },
 
-      // clear the form
-      $('input', form).val("");
-    },
+        // close the add stock form and clear the inputs
+        cancelGame: function () {
+            var form = $("#add-stock-form", $(this.el));
+            // close the form
+            form.slideUp();
 
-    retrieveStocksData: function(stockId){
+            // clear the form
+            $('input', form).val("");
+        },
 
-    },
+        retrieveAStock: function (stockId) {
+            //TODO: activate when API requests work to reach stock server on port 7021
+            //new Application.Services.APIRequestService({
+            //    // type of request
+            //    'type': "GET",
+            //    // endpoint for the API to hit
+            //    'uri': "/stock/"+stockId,
+            //    // callback function for the request
+            //    'callback': function (data) {
+            //        // append the data to browseview
+            //        // instead of asking for new data from the server
+            //        data = JSON.parse(data);
+            //        this.makeBrowseStocksTable(data);
+            //    }
+            //});
+        },
 
-    // todo: when user clicks on a a stock,
-    // have the div slide down and let them have the option
-    // to add it to their portfolio for a specific game
-    //(have a drop down of the games they're currently in)*/
+        retrieveCommonStockData: function () {
+            //TODO: activate when API requests work to reach stock server on port 7021
+            //new Application.Services.APIRequestService({
+            //    // type of request
+            //    'type': "GET",
+            //    // endpoint for the API to hit
+            //    'uri': "/commonStocks/stock",
+            //    // callback function for the request
+            //    'callback': function (data) {
+            //        // append the data to browseview
+            //        // instead of asking for new data from the server
+            //        data = JSON.parse(data);
+            //        this.makeBrowseStocksTable(data);
+            //    }
+            //});
+        },
 
 
-    // set up the events
-    events: {
-      'click #add-stock-btn': 'addStock',
-      'click #cancel': 'cancel',
-      'click #submit' : 'submit',
-      'click #browseStocks > tbody > tr': 'getStockInfo'
-    },
+        // todo: when user clicks on a a stock,
+        // have the div slide down and let them have the option
+        // to add it to their portfolio for a specific game
+        //(have a drop down of the games they're currently in)*/
 
 
-  });
+        // set up the events
+        events: {
+            'click #add-stock-btn': 'addStock',
+            'click #cancel': 'cancel',
+            'click #submit': 'submit',
+            'click #browseStocks > tbody > tr': 'getStockInfo'
+        },
 
-  // assign it to the global scope
-  window.Application.Views.BrowseView = BrowseView;
+
+    });
+
+    // assign it to the global scope
+    window.Application.Views.BrowseView = BrowseView;
 })(window, document, jQuery, undefined);
