@@ -50,7 +50,7 @@ $(document).ready(function() {
     // send the signup
     function sendSignup(e) {
       // validate the form
-      if(!validateEmail() || !validatePassword()) {
+      if(!validateUsername() || !validatePassword()) {
         return;
       }
 
@@ -63,7 +63,7 @@ $(document).ready(function() {
     // handle events on the page
     $('#login-btn').on('click', sendLogin);
     $('#signup-btn').on('click', sendSignup);
-    $('#username-input').on('input', validateEmail);
+    $('#username-input').on('input', validateUsername);
     $('#pw-input').on('input', validatePassword);
 
 });
