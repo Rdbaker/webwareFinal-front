@@ -1,32 +1,66 @@
-table, td, th {
+/*table, td, th {
     margin-top: 100px;
     }
     th {
         color: gray;
+}*/
+
+#browse-view{
+    margin-bottom: 60px;
 }
 
 #searchbar {
-    margin-top: 20px;
+    margin-top: 0px;
+    margin-bottom: 30px;
     height: 30px;
     width: 150px;
-    font-size: 20px;
+    font-size: 17px;
     font-family: "Roboto", "Helvetica Neue", Helvecita, Arial, sans-serif;
-    color: #636768;
+    color: black;
     float: left;
-
 }
 
 #add-stock-form{
-    background-color: #636768;
+    background-color: lightgray;
     width: 50%;
     margin: 30px auto auto 25%;
     border-radius: 10px;
 }
 
-#view-stock-form{
-    background-color: #eee;
-    width: 50%;
-    margin: 30px auto auto 25%;
-    border-radius: 10px;
+#add-stock-btn{
+    height: 40px;
+    width: 30%;
+}
+
+#stock{
+    margin-top: 10px;
+}
+
+#cancel-btn{
+    height: 40px;
+    width: 30%;
+}
+
+#button-container{
+    margin-top: 45px;
+}
+
+#stock-name{
+    margin: 10px;
+}
+
+.form-horizontal .control-label {
+    font-size: 0.75em;
+}
+
+
+#submit{
+    width: 30%;
+    position: relative;
+}
+
+#cancel{
+    width: 30%;
+    position: relative;
 }
 

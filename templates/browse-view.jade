@@ -3,15 +3,69 @@
 
 .wrapper
    .h3 Browse Stocks
+   input#searchbar(type='text', placeholder='search by ID')
    table.table.table-striped.table-hover#browseStocks
       thead
          tr
-            th#stockName Stock Name
-            th#stockPrice Price
-      tbody
-         input#searchbar
-.text-center
-   .btn.btn-info#add-stock-form View Stock
+            th ID
+            th Stock Name
+            th Price
+      tableBody
+
+   .text-center
+      .btn.btn-info#add-stock-btn Add Stock
+      form.text-center.form-horizontal#add-stock-form
+   fieldset
+   .text-center
+      .form-group#stock-group
+         label.col-lg-2.control-label To
+         div.btn-group
+            button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown")
+               |Select A Game
+               span.caret
+            ul.dropdown-menu(role="menu")
+               li
+                  a(href="#") Action
+               li.divider
+               li
+                  a(href="#") Another action
+            //div.dropdown
+               ul.dropdown-menu(role="menu")
+                  li(role="presentation")
+                     a(href="#", role="menuitem", tabin dex="-1") Regular link
+           //
+            html
+               head
+                  include bootstrap/inc/scripts
+               body
+            .dropdown
+               a(href="#", data-toggle="dropdown").dropdown-toggle Dropdown trigger
+               ul.dropdown-menu(role='menu', aria-labelledby='dropdownMenu')
+                  li
+                     a(href='#', tabindex='-1') Game 1
+                  li
+                     a(href='#', tabindex='-1') Game 2
+                  li.divider
+                  li
+                     a(href='#', tabindex='-1') Separated link
+            script.
+               $('.dropdown-toggle').dropdown()
+
+
+
+
+         #button-container
+            .btn.btn-success#submit Submit
+            .btn.btn-primary#cancel Cancel
+
+
+            //#stock-name.dropdown(type='button' placeholder='Select Game')
+
+
+
+
+
+
 
 
 
