@@ -1,30 +1,37 @@
 .wrapper
+  // the title of the games table
   .h3 Open Games
+  // the games table
   table.table.table-striped.table-hover#games
     thead
       tr
         th Name
         th Your Net Worth
     tbody
+  // button to create a new game
   .text-center
     .btn.btn-info#game-btn New Game
+  // the form to create a new game
   form.text-center.form-horizontal#new-game-form
+    // input for the game name
     fieldset
       .form-group#game-name-group
         label.col-lg-2.control-label Game Name
         .col-lg-10
           input#game-name.form-control(type='text' placeholder='Name')
+    // input for the end game requirement
     fieldset
-      .form-group#game-end-group
-        label.col-lg-2.control-label Winning Net Worth
+      .form-group#game-start-group
+        label.col-lg-2.control-label Starting Money
         .input-group
           span.input-group-addon $
-          input#winning-worth.form-control(type="text")
-
+          input#start-worth.form-control(type="text")
+    // input for the other players
     fieldset
       .text-center
         span Other Players
         span.btn.btn-xs.btn-info#add-player +
+      .form-group#players
     #btn-container
       .btn.btn-success#create-game Create Game
       .btn.btn-primary#cancel-game Cancel

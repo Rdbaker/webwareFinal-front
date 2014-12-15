@@ -6,9 +6,7 @@
   // callback--- the callback function to run with the returned data
   var api_request_service = function(params) {
     // the API host domain - no route attached here
-
-// fill this in once we have an API to hit
-//    var api = "http://rous.wpi.edu:4028"
+    var api = "http://rous.wpi.edu:4028"
 
     var to_ret = {};
 

@@ -53,10 +53,13 @@
     cancelGame: function () {
       var form = $("#new-game-form", $(this.el));
       // close the form
-      form.slideUp();
+      form.slideUp('fast');
 
       // clear the form
       $('input', form).val("");
+
+      // get rid of the player inputs
+      var players = $('.add-user', form).remove();
     },
 
     // create the game
@@ -65,8 +68,32 @@
       var good = this.validateForm();
 
       if (good) {
+        var gameName = $("#game-name").val();
+        var toWin = $("#start-worth").val();
+        var names = [];
+        $('.add-user').each(function(ind, val) { names.push(val.value); });
+
         // send the game information to the server
         // in an API service request
+        (function(_this) {
+          new Application.Services.APIRequestService({
+            // the type of request
+            'type'       : 'POST',
+            // the endpoint for the request
+            'uri'        : '/games/create',
+            // send the data
+            'data'       : {
+                             'name'          : gameName,
+                             'startvalue'    : toWin,
+                             'users'         : names,
+                             'authToken'     : window.authToken
+                           },
+            // the callback
+            'callback'   : function(data) {
+              _this.makeTableFromGames({'name' : gameName, 'val' : 10000});
+            }
+          });
+        })(this);
 
         // close and clear the form
         this.cancelGame();
@@ -76,13 +103,13 @@
     // validate the newGame form
     validateForm: function () {
       // get the input fields
-      var gameName = $("#game-name");
+      var gameName = $("#game-name").val();
 
       // the regex for usernames and for game names
-      var re = /^\w$/;
+      var re = /\w/;
 
       // test the game name
-      var good = re.test(gameName.val());
+      var good = re.test(gameName);
 
       // if the game name isn't good, let the user know
       if (!good) {
@@ -91,10 +118,24 @@
         $("#game-name-group").removeClass('has-error');
       }
 
-      // check each of the usernames
+      // check if the winning net worth is right
+      var worth = $("#start-worth").val();
+
+      // the regex for the networth
+      re = /\d/;
+
+      // test the worth
+      var good_worth = re.test(worth);
+
+      // if the worth isn't good, let the user know
+      if (!good_worth) {
+        $('#game-start-group').addClass('has-error');
+      } else {
+        $('#game-start-group').removeClass('has-error');
+      }
 
       // return the validation result
-      return good;
+      return good && good_worth;
     },
 
     // get the game's info and change its color on a click
@@ -105,7 +146,6 @@
       // add it to the clicked row
       $(e.currentTarget).addClass('warning');
 
-
       // retrieve the info for the game
       this.retrieveLeaderBoardData(e);
       this.retrieveMyStockPortfolioData(e);
@@ -114,8 +154,7 @@
 
     retrieveLeaderBoardData: function (gamename) {
 
-      // TODO: create an API request service caller, review end point
-      //var gameNameTxt = gamename.currentTarget.childNodes[0].innerText;
+      var gameNameTxt = gamename.currentTarget.childNodes[0].innerText;
       //new Application.Services.APIRequestService({
       //    // type of request
       //    'type': "GET",
@@ -147,64 +186,93 @@
       //            tbody.append(row);
       //        }
       //    }
-      //
       //});
-
     },
 
     retrieveMyStockPortfolioData: function (gamename) {
-
-      // TODO: create an API request service caller, review end points
-      //var gameNameTxt = gamename.currentTarget.childNodes[0].innerText;
-      //new Application.Services.APIRequestService({
-      //    // type of request
-      //    'type': "GET",
-      //    // endpoint for the API to hit
-      //    'uri': "/"+gameNameTxt + "/stocks",
-      //    // callback function for the request
-      //    'callback': function (data) {
-      //        // append the data to Leader board table
-      //        // instead of asking for new data from the server
-      //
-      //        data = JSON.parse(data);
-      //        var tbody = $("tbody", $('#user-stock-view'));
-      //        var stockName, NumOwned, CostperShare, BuySell, row;
-      //        for (var i = 0; i < data.length; i++) {
-      //            // create the row and data for the row
-      //            row = document.createElement("tr");
-      //            stockName = document.createElement("td");
-      //            NumOwned = document.createElement("td");
-      //            CostperShare = document.createElement("td");
-      //
-      //            // put the content in the row
-      //            $(stockName).text(data[i].stockName);
-      //            $(NumOwned).text(data[i].NumOwned);
-      //            $(CostperShare).text(data[i].CostperShare);
-      //            $(BuySell).text(data[i].BuySell);
-      //
-      //            // append the content to the row
-      //            row.appendChild(stockName);
-      //            row.appendChild(NumOwned);
-      //            row.appendChild(CostperShare);
-      //
-      //            // append the row to the body
-      //            tbody.append(row);
-      //        }
-      //    }
-      //
-      //});
+      var gameNameTxt = gamename.currentTarget.childNodes[0].innerText;
+      (function(_this){
+        //new Application.Services.APIRequestService({
+        //    // type of request
+        //    'type': "GET",
+        //    // endpoint for the API to hit
+        //    'uri': "/"+gameNameTxt + "/stocks",
+        //    // callback function for the request
+        //    'callback': function (data) {
+        //        // append the data to Leader board table
+        //        // instead of asking for new data from the server
+        //
+        //        data = JSON.parse(data);
+        //        var tbody = $("tbody", $('#user-stock-view'));
+        //        var stockName, NumOwned, CostperShare, BuySell, row;
+        //        for (var i = 0; i < data.length; i++) {
+        //            // create the row and data for the row
+        //            row = document.createElement("tr");
+        //            stockName = document.createElement("td");
+        //            NumOwned = document.createElement("td");
+        //            CostperShare = document.createElement("td");
+        //            BuySell = _this.buySellInput();
+        //
+        //            // put the content in the row
+        //            $(stockName).text(data[i].stockName);
+        //            $(NumOwned).text(data[i].NumOwned);
+        //            $(CostperShare).text(data[i].CostperShare);
+        //
+        //            // append the content to the row
+        //            row.appendChild(stockName);
+        //            row.appendChild(NumOwned);
+        //            row.appendChild(CostperShare);
+        //            row.appendChild(BuySell);
+        //
+        //            // append the row to the body
+        //            tbody.append(row);
+        //        }
+        //    }
+        //});
+      })(this);
 
     },
 
+    addPlayer: function() {
+      // add a new input field to the players part of the form
+      var formarea = $("#players", $(this.el));
 
-  // set up the events
-  events: {
-    'click #game-btn': 'newGame',
-    'click #cancel-game': 'cancelGame',
-    'click #create-game': 'createGame',
-    'click #games > tbody > tr': 'getGameInfo'
-  },
+      // create the input area
+      var input = document.createElement("input");
+      input.type = 'text';
+      $(input).addClass('add-user');
 
+      formarea[0].appendChild(input);
+    },
+
+    buySellInput: function() {
+      // create the elements
+      var td = document.createElement('td');
+      var sell = document.createElement("span");
+      var buy = document.createElement("span");
+      var input = document.createElement("input");
+
+      // assign the classes and properties
+      sell.className = "btn btn-xs btn-primary sell";
+      buy.className = "btn btn-xs btn-primary buy";
+      input.type = 'text';
+
+      // append the elements
+      td.appendChild(sell);
+      td.appendChild(input);
+      td.appendChild(buy);
+
+      return td;
+    },
+
+    // set up the events
+    events: {
+      'click #game-btn'           : 'newGame',
+      'click #cancel-game'        : 'cancelGame',
+      'click #create-game'        : 'createGame',
+      'click #games > tbody > tr' : 'getGameInfo',
+      'click #add-player'         : 'addPlayer'
+    },
 
   });
 
