@@ -65,3 +65,7 @@
 li:hover{
     background-color: lightgray;
 }
+
+.modal-body {
+  height: 100px;
+}

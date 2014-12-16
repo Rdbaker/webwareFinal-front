@@ -88,12 +88,6 @@
             // clear the form
             $('input', form).val("");
             $('#modal').hide();
-
-
-            //add a listener for each row to have something called hidden
-            // and if each substring doesn't match the ID, hide the row
-            // and then all that's left is to submit a GET request
-            // to the API
         },
 
 
@@ -150,53 +144,47 @@
                     // append the data to dropdown in browseview
                     // instead of asking for new data from the server
                     data = JSON.parse(data);
-                    console.log(data);
                     // get an array of game names
                     for (i = 0; i < data.length; i++) {
-
-                        //gameName = [];
-                        data[i].gameId;
-                        data[i].startvalue;
-                        data[i].users;
-                        data[i].name;
-
-                        var m = document.createElement('li');
+                        var m = document.createElement('option');
                         m.id = data[i].gameId;
-                        $('#stock-group > div > ul')[0].appendChild(m);
                         m.innerText = data[i].name;
+                        $('#game-select')[0].appendChild(m);
                     }
                 }
             });
         },
 
 
-        postNewStocktoGame: function (gameId, stockName) {
-            new Application.Services.APIRequestService({
-                //type of request
-                'type': "POST",
-                //endpoint for API to hit
-                'uri': "/stocks/add",
-                'data': {
-                    'gameId': gameId,
-                    'stockName': stockName,
-                    'authToken': window.authToken
-                },
-                'callback' : function(data) {
-                }
-            });
+        postNewStocktoGame: function () {
+            (function(_this) {
+              new Application.Services.APIRequestService({
+                  //type of request
+                  'type': "POST",
+                  //endpoint for API to hit
+                  'uri': "/stocks/add",
+                  'data': {
+                      'gameId': $('option:contains('+$("#game-select").val()+')')[0].id,
+                      'stockName': _this.toSubmit,
+                      'authToken': window.authToken
+                  },
+                  'callback' : function(data) {
+                    $('#modal').modal('hide');
+                  }
+              });
+            })(this);
         },
 
         //select option from dropdown menu, submit, and add stock to game
-        submit: function(e){
-            this.postNewStocktoGame(e.target.id);
+        setupSubmit: function(e){
+            this.toSubmit = e.currentTarget.childNodes[0].innerText;
         },
 
         // set up the events
         events: {
-            'click #cancel-btn'                 : 'cancel',
             'click #browseStocks > tbody > tr'  : 'addStock',
-            'click #stock-group > div > ul > li': 'submit'
-
+            'click tr': 'setupSubmit',
+            'click #submit' : 'postNewStocktoGame'
         },
 
 

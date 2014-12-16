@@ -1,9 +1,5 @@
-//
-   Created by saraf on 12/11/2014.
-
 .wrapper
    .h3 Browse Stocks
-   input#searchbar(type='text', placeholder='search by ID')
    table.table.table-striped.table-hover#browseStocks
       thead
          tr
@@ -11,28 +7,16 @@
             th Stock Name
             th Price
       tbody
-   .text-center.modal.fade#modal(tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true")
-      form.text-center.form-horizontal#add-stock-form
-         fieldset
-         .text-center
-            .form-group#stock-group
-               label.col-lg-2.control-label Add To
-               div.btn-group
-                  button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown")
-                     |Select A Game
-                     span.caret
-                  ul.dropdown-menu(role="menu")
-         #button-container
+    .modal.fade#modal(tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true")
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type="button" data-dismiss="modal" aria-hidden="true") x
+            h3 Add a Stock to Your Game Portfolio
+          .modal-body
+            .form-group
+              label.col-lg-2.control-label(for="select") Game
+              .col-lg-10
+                select.form-control#game-select
+          .modal-footer.text-center
             .btn.btn-success#submit Submit
-            .btn.btn-primary#cancel-btn Cancel
-
-
-
-
-
-
-
-
-
-
-
