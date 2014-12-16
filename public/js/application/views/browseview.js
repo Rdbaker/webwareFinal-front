@@ -39,11 +39,13 @@
                 Price = document.createElement('td');
                 tr = document.createElement('tr');
                 //add attributes to make modal appear
+
                 $("#browseStocks > tbody > tr").attr('data-toggle', 'modal');
                 $("#browseStocks > tbody > tr").attr('data-target', '#modal');
 
                 ID.innerText = browseStocks[i].symbol;
                 Name.innerText = browseStocks[i].name;
+                tr.id = ID;
 
                 if(browseStocks[i].askRealtime != 0){
                     Price.innerText = (browseStocks[i].askRealtime).toFixed(2);
@@ -79,9 +81,10 @@
         },
 
         // open the add stock form
-        addStock: function () {
+        addStock: function (e) {
             // open the form
             $("#add-stock-form", $(this.el)).slideDown();
+            console.log(e.currentTarget.childNodes[0].innerText);
         },
 
         // close the add stock form and clear the inputs
