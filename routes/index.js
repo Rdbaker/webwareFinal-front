@@ -14,20 +14,51 @@ module.exports = function(app, reqs) {
   // POST to the login route
   app.post('/login', function(req, res) {
     // send a post request to the API to login
-    console.log(req.body);
-    reqs.request('http://rous.wpi.edu:5028/login', function(err, response, body) {
-      
-    });
-
-
-    res.redirect('/game');
+    reqs.request.post(
+      {
+        url:'http://rous.wpi.edu:4028/users/login',
+        // send the data
+        json: {
+          'username' : req.body.username,
+          'password' : req.body.password
+        }
+      },
+      // callback function
+      function(err, response, body) {
+        if(err) {
+          res.redirect('/');
+        }
+        if(body.code === 400) {
+          res.redirect('/');
+        } else {
+          console.log(body);
+          res.set({
+            'authToken' : body['authToken'],
+            'userId'    : body['userId']
+          });
+          res.redirect('/game');
+        }
+      }
+    );
   });
 
   // POST to the signup route
   app.post('/signup', function(req, res) {
-    // logic for signing up
-    // then redirect to the home page
-    res.redirect('/game');
+    // send a post request to the API to sign a user up
+    reqs.request.post(
+      {
+        url:'http://rous.wpi.edu:4028/users/create',
+        // send the data
+        json: {
+          'username' : req.body.username,
+          'password' : req.body.password
+        }
+      },
+      // callback function
+      function(err, response, body) {
+        res.redirect('/');
+      }
+    );
   });
 
   // GET the game view
@@ -35,21 +66,11 @@ module.exports = function(app, reqs) {
     // set the options
     var options = {};
     // set the locals
-    var locals = {};
+    var locals = {
+      ""
+    };
 
     var fn = reqs.jade.compileFile('./views/parent.jade', options);
-    // send back the compiled jade file
-    res.send(fn(locals));
-  });
-
-  // GET the browse stocks view
-  app.get('/browse', function(req, res) {
-    // set the options
-    var options = {};
-    // set the locals
-    var locals = {};
-
-    var fn = reqs.jade.compileFile('./views/browse.jade', options);
     // send back the compiled jade file
     res.send(fn(locals));
   });
