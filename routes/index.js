@@ -66,9 +66,8 @@ module.exports = function(app, reqs) {
     // set the options
     var options = {};
     // set the locals
-    var locals = {
-      ""
-    };
+    var locals = {};
+
 
     var fn = reqs.jade.compileFile('./views/parent.jade', options);
     // send back the compiled jade file
