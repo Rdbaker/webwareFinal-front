@@ -135,6 +135,7 @@ module.exports = function(app, reqs) {
             }
           }*/
         }
+        data.sort(function(a, b) { return a.amount < b.amount });
         res.send(data);
       });
   });
