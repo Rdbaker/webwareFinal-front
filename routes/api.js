@@ -119,7 +119,7 @@ module.exports = function(app, reqs) {
                 if (toAdd == 0) {
                   toAdd = body2[k].bidRealtime;
                 }
-                if(!!stocks[j].currentShare) {
+                if(!!stocks[j]) {
                   data[i].amount += Number(toAdd) * Number(stocks[j].currentShares);
                 }
               }
