@@ -14,21 +14,22 @@
                     //make an API request to populate
                     // stock table
 
-                   // _this.makeBrowseStocksTable([{id: 100, name: 'test', price: 100}]);
-
                     // close the new stock form
                     $("#add-stock-form", $(_this.el)).hide();
+
+
                 });
             })(this);
+            
+            this.retrieveCommonStockData();
 
-            //TODO: activate when API works and can reach port 7021
-            //this.retrieveCommonStockData();
+
         },
 
         //add test id, stockname, price table and sort by most popular
         makeBrowseStocksTable: function (browseStocks) {
             var tbody = $("tbody", $("#browseStocks"));
-
+            console.log(browseStocks);
             var ID, Name, Price, tr;
             // make a new row for each stock
             for (var i = 0; i < browseStocks.length; i++) {
@@ -38,7 +39,13 @@
                 tr = document.createElement('tr');
                 ID.innerText = browseStocks[i].symbol;
                 Name.innerText = browseStocks[i].name;
-                Price.innerText = browseStocks[i].price;
+                if(browseStocks[i].askRealtime != 0){
+                    Price.innerText = browseStocks[i].askRealtime;
+
+                }
+                else{
+                    Price.innerText = browseStocks[i].bidRealtime;
+                }
 
                 // add it to the table
                 tr.appendChild(ID);
@@ -47,6 +54,7 @@
                 tbody[0].appendChild(tr);
             }
         },
+
 
         // limit the table to show 10 records at a time
         makeTableScroll: function (browseStocks) {
@@ -62,20 +70,6 @@
                 wrapper.style.height = height + "px";
             }
         },
-
-        // when user clicks row, display add stock form
-
-        /*$(function(){
-         $('#browseStocks').next().click(function(){
-         $(this).hide();
-         var $result = $('#add-stock-form');
-         $('#browseStocks').bootstrapTable({
-         }).on('click-row.bs.table', function(e, row, $element) {
-         $result.text('Event:click-row.bs.table, data: ' + JSON.stringify(row));
-         })
-         })
-         }),*/
-
 
         // open the add stock form
         addStock: function () {
@@ -98,53 +92,24 @@
             // to the API
         },
 
-        // validate stock
-       /* validateStock: function () {
-            // validate the form
-            var good = this.validateStock();
-
-            if (good) {
-                var gameName = $("#game-name").val();
-                //var toWin = $("#start-worth").val();
-                // var names = [];
-                // $('.add-user').each(function(ind, val) { names.push(val.value); });
-                (function (_this) {
-                    new Application.Services.APIRequestService({
-                        // the type of request
-                        'type': 'POST',
-                        // the endpoint for the request
-                        'uri': '/games',
-                        // send the data
-                        'data': {
-                            'name': gameName
-                            //'startvalue': toWin,
-                            //'users': names,
-                            //'authToken': window.authToken
-                        },
-                        // the callback
-                        'callback': function (data) {
-                            _this.makeTableFromGames({'name': gameName, 'val': 10000});
-                        }
-                    })
-                });
-            }
-        },*/
-
         retrieveCommonStockData: function () {
-            //TODO: activate when API requests work to reach stock server on port 7021
-            //new Application.Services.APIRequestService({
-            //    // type of request
-            //    'type': "GET",
-            //    // endpoint for the API to hit
-            //    'uri': "/commonStocks/stock",
-            //    // callback function for the request
-            //    'callback': function (data) {
-            //        // append the data to browseview
-            //        // instead of asking for new data from the server
-            //        data = JSON.parse(data);
-            //        this.makeBrowseStocksTable(data);
-            //    }
-            //});
+            (function(_this) {
+                new Application.Services.APIRequestService({
+                    'port' : "7021",
+                    // type of request
+                    'type': "GET",
+                    // endpoint for the API to hit
+                    'uri': "/commonStocks/stock",
+                    // callback function for the request
+                    'callback': function (data) {
+                        // append the data to browseview
+                        // instead of asking for new data from the server
+                        data = JSON.parse(data);
+                        _this.makeBrowseStocksTable(data);
+                    }
+                });
+            })(this);
+
 
         },
         // retrives names of games for the user
