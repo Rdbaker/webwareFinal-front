@@ -247,6 +247,7 @@
               stocksString = stocksString + ',' + stocks[j].stockName;
             }
             stocksString = stocksString.substring(1, stocksString.length);
+            var tbody = $("tbody", $('#user-stock-view')).html("");
             if(!!stocksString) {
               $.get('http://rous.wpi.edu:7021/stock/' + stocksString,
                 // callback function
@@ -257,7 +258,6 @@
                     if (stockval === 0) {
                       stockval = data2[k].bidRealtime;
                     }
-                    var tbody = $("tbody", $('#user-stock-view'));
                     var stockName, NumOwned, CostperShare, BuySell, row;
                     // create the row and data for the row
                     row = document.createElement("tr");
@@ -319,13 +319,30 @@
       return td;
     },
 
+    deleteGame: function(e) {
+      var gameId = e.currentTarget.parentElement.id;
+      var dat = {
+        'authToken' : window.authToken,
+        'gameId'    : gameId
+      };
+      new Application.Services.APIRequestService({
+        'type' : 'POST',
+        'uri'  : '/games/remove',
+        'data' : dat,
+        'callback' : function(data) {
+          $('#'+gameId).slideUp();
+        }
+      });
+    },
+
     // set up the events
     events: {
       'click #game-btn'           : 'newGame',
       'click #cancel-game'        : 'cancelGame',
       'click #create-game'        : 'createGame',
       'click #games > tbody > tr' : 'getGameInfo',
-      'click #add-player'         : 'addPlayer'
+      'click #add-player'         : 'addPlayer',
+      'click .delete'             : 'deleteGame'
     },
 
   });
