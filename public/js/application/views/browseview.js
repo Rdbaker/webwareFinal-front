@@ -92,6 +92,8 @@
 
             // clear the form
             $('input', form).val("");
+            $('#modal').hide();
+
 
             //add a listener for each row to have something called hidden
             // and if each substring doesn't match the ID, hide the row
