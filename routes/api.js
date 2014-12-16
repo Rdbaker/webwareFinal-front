@@ -81,4 +81,51 @@ module.exports = function(app, reqs) {
   // --------------- END BROWSE PAGE VIEWS -----------------
 
 
+  // POST get the leaderboard data
+  app.post('/leaderboard-data', function(req, res) {
+    reqs.request.post(
+      {
+        url:'http://rous.wpi.edu:4028/games/leaderboard',
+        // send the data
+        json: {
+          'authToken' : req.body.authToken,
+          'gameId' : req.body.gameId
+        }
+      },
+      // callback function
+      function(err, response, body) {
+        var data = [];
+        var length = body.length;
+
+        for (i in body) {
+          data[i] = { username : body[i].username, amount : Number(body[i].currentValue) };
+          var stocks = body[i].stocks;
+          var stocksString = '';
+          for (j in stocks) {
+            stocksString = stocksString + ',' + stocks[j].stockName;
+          }
+          stocksString = stocksString.substring(1, stocksString.length);
+
+          reqs.request.get(
+          {
+            url : 'http://rous.wpi.edu:7021/stock/' + stocksString
+          },
+          // callback function
+          function(err2, response2, body2) {
+            body2 = JSON.parse(body2);
+            for (k in body2) {
+              var toAdd = body2[k].askRealtime;
+              if (toAdd == 0) {
+                toAdd = body2[k].bidRealtime;
+              }
+              data[i].amount += Number(toAdd) * Number(stocks[j].currentShares);
+            }
+            if (data.length === body.length) {
+              data.sort(function(a, b) { return a.amount < b.amount });
+              res.send(data);
+            }
+          });
+        }
+      });
+  });
 };

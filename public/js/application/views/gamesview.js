@@ -14,11 +14,12 @@
             // type of request
             'type' : "POST",
             // endpoint for the API to hit
-            'uri'  : "",
+            'uri'  : "/games",
             // the data to send
             'data' : { 'authToken' : window.authToken },
             // the callback
             'callback' : function(data) {
+              console.log(data);
               _this.makeTableFromGames(JSON.parse(stringify));
             }
           });
@@ -75,37 +76,37 @@
     },
 
     // create the game
-    createGame: function () {
+    validateStock: function () {
       // validate the form
       var good = this.validateForm();
 
       if (good) {
         var gameName = $("#game-name").val();
-        var toWin = $("#start-worth").val();
-        var names = [];
-        $('.add-user').each(function(ind, val) { names.push(val.value); });
+        //var toWin = $("#start-worth").val();
+        //var names = [];
+       // $('.add-user').each(function(ind, val) { names.push(val.value); });
 
         // send the game information to the server
         // in an API service request
-        //(function(_this) {
-        //  new Application.Services.APIRequestService({
-        //    // the type of request
-        //    'type'       : 'POST',
-        //    // the endpoint for the request
-        //    'uri'        : '/games/create',
-        //    // send the data
-        //    'data'       : {
-        //                     'name'          : gameName,
-        //                     'startvalue'    : toWin,
-        //                     'users'         : names,
-        //                     'authToken'     : window.authToken
-        //                   },
-        //    // the callback
-        //    'callback'   : function(data) {
-        //      _this.makeTableFromGames({'name' : gameName, 'val' : 10000});
-        //    }
-        //  });
-        //})(this);
+        (function(_this) {
+          new Application.Services.APIRequestService({
+            // the type of request
+            'type'       : 'POST',
+            // the endpoint for the request
+            'uri'        : '/games/create',
+            // send the data
+            'data'       : {
+                             'name'          : gameName,
+                             'startvalue'    : toWin,
+                             'users'         : names,
+                             'authToken'     : window.authToken
+                           },
+            // the callback
+            'callback'   : function(data) {
+              _this.makeTableFromGames({'name' : gameName, 'val' : 10000});
+            }
+          });
+        })(this);
 
         // close and clear the form
         this.cancelGame();
