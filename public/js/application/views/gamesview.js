@@ -75,25 +75,25 @@
 
         // send the game information to the server
         // in an API service request
-        (function(_this) {
-          new Application.Services.APIRequestService({
-            // the type of request
-            'type'       : 'POST',
-            // the endpoint for the request
-            'uri'        : '/games/create',
-            // send the data
-            'data'       : {
-                             'name'          : gameName,
-                             'startvalue'    : toWin,
-                             'users'         : names,
-                             'authToken'     : window.authToken
-                           },
-            // the callback
-            'callback'   : function(data) {
-              _this.makeTableFromGames({'name' : gameName, 'val' : 10000});
-            }
-          });
-        })(this);
+        //(function(_this) {
+        //  new Application.Services.APIRequestService({
+        //    // the type of request
+        //    'type'       : 'POST',
+        //    // the endpoint for the request
+        //    'uri'        : '/games/create',
+        //    // send the data
+        //    'data'       : {
+        //                     'name'          : gameName,
+        //                     'startvalue'    : toWin,
+        //                     'users'         : names,
+        //                     'authToken'     : window.authToken
+        //                   },
+        //    // the callback
+        //    'callback'   : function(data) {
+        //      _this.makeTableFromGames({'name' : gameName, 'val' : 10000});
+        //    }
+        //  });
+        //})(this);
 
         // close and clear the form
         this.cancelGame();
