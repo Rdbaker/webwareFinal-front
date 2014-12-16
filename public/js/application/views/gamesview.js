@@ -43,11 +43,12 @@
         td1 = document.createElement('td');
         td2 = document.createElement('td');
         td1.innerText = games[i].name;
-        td2.innerText = games[i].val;
+        td2.innerText = games[i].currentValue;
 
         // append it to the table
         tr.appendChild(td1);
         tr.appendChild(td2);
+        tr.id = games[i].gameId;
         tbody[0].appendChild(tr);
       }
     },
@@ -85,6 +86,11 @@
         var toWin = $("#start-worth").val();
         var names = [];
         $('.add-user').each(function(ind, val) { names.push(val.value); });
+        names.push(window.username)
+        var uniqueNames = [];
+        $.each(names, function(i, el){
+          if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+        });
 
         // send the game information to the server
         // in an API service request
@@ -98,12 +104,12 @@
             'data'       : {
                              'name'          : gameName,
                              'startValue'    : toWin,
-                             'users[]'         : names,
+                             'users[]'       : uniqueNames,
                              'authToken'     : window.authToken
                            },
             // the callback
             'callback'   : function(data) {
-              _this.makeTableFromGames({'name' : gameName, 'val' : 10000});
+              _this.makeTableFromGames(data);
             }
           });
         })(this);
@@ -154,7 +160,7 @@
     // get the game's info and change its color on a click
     getGameInfo: function (e) {
       // remove any already chosen row
-      $('#warning', $('tbody', $(this.el))).removeClass('warning');
+      $('.warning', $('tbody', $(this.el))).removeClass('warning');
 
       // add it to the clicked row
       $(e.currentTarget).addClass('warning');
@@ -165,41 +171,35 @@
 
     },
 
-    retrieveLeaderBoardData: function (gamename) {
-
-      var gameNameTxt = gamename.currentTarget.childNodes[0].innerText;
-      //new Application.Services.APIRequestService({
-      //    // type of request
-      //    'type': "GET",
-      //    // endpoint for the API to hit
-      //    'uri': "/"+gameNameTxt + "/leaderboard",
-      //    // callback function for the request
-      //    'callback': function (data) {
-      //        // append the data to Leader board table
-      //        // instead of asking for new data from the server
-      //
-      //        data = JSON.parse(data);
-      //        var tbody = $("tbody", $('#leaderboard-view'));
-      //        var username, networth, row;
-      //        for (var i = 0; i < data.length; i++) {
-      //            // create the row and data for the row
-      //            row = document.createElement("tr");
-      //            username = document.createElement("td");
-      //            networth = document.createElement("td");
-      //
-      //            // put the content in the row
-      //            $(username).text(data[i].username);
-      //            $(networth).text(data[i].networth);
-      //
-      //            // append the content to the row
-      //            row.appendChild(username);
-      //            row.appendChild(networth);
-      //
-      //            // append the row to the body
-      //            tbody.append(row);
-      //        }
-      //    }
-      //});
+    retrieveLeaderBoardData: function (event) {
+      // get the game ID
+      var gameId = event.currentTarget.id;
+      // send the POST request
+      $.post('/leaderboard-data',
+        {
+          authToken: window.authToken,
+          gameId   : gameId
+        },
+        function(data) {
+          // clear the leaderboard
+          var tbody = $("tbody", $('#leaderboard-view')).html("");
+          var username, networth, row;
+          for (var i = 0; i < data.length; i++) {
+            // create the row and data for the row
+            row = document.createElement("tr");
+            username = document.createElement("td");
+            networth = document.createElement("td");
+            // put the content in the row
+            $(username).text(data[i].username);
+            $(networth).text(data[i].amount);
+            // append the content to the row
+            row.appendChild(username);
+            row.appendChild(networth);
+            // append the row to the body
+            tbody.append(row);
+          }
+        }
+      );
     },
 
     retrieveMyStockPortfolioData: function (gamename) {

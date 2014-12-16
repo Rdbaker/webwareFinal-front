@@ -75,7 +75,8 @@
 
   // assign the authtoken and the userid to the global scope
   var temp = document.cookie.substring(document.cookie.indexOf("authToken"), document.cookie.length);
-  window.authToken = temp.substring(temp.indexOf('=')+1, temp.indexOf(';'));
-  window.userId = temp.substring(temp.indexOf('userId')+7, temp.length);
+  window.authToken = temp.substring(temp.indexOf('=')+1, temp.indexOf('; userId'));
+  window.userId = temp.substring(temp.indexOf('userId')+7, temp.indexOf('; username'));
+  window.username = temp.substring(temp.indexOf('username')+9, temp.length);
 
 })(window, document, jQuery, undefined);
