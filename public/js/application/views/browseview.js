@@ -11,26 +11,18 @@
             (function (_this) {
                 $.get('/browse-view', function (data) {
                     $(_this.el).html(data);
-                    //make an API request to populate
-                    // stock table
 
                     // close the new stock form
                     $("#add-stock-form", $(_this.el)).hide();
                     _this.retrieveCommonStockData();
                     _this.retrieveGameName();
-
-
                 });
             })(this);
-            //TODO: activate when API works and can reach port 7021
-
-
         },
 
         //add test id, stockname, price table and sort by most popular
         makeBrowseStocksTable: function (browseStocks) {
             var tbody = $("tbody", $("#browseStocks"));
-            console.log(browseStocks);
             var ID, Name, Price, tr;
             // make a new row for each stock
             for (var i = 0; i < browseStocks.length; i++) {
@@ -49,7 +41,6 @@
 
                 if(browseStocks[i].askRealtime != 0){
                     Price.innerText = (browseStocks[i].askRealtime).toFixed(2);
-
 
                 }
                 else {
@@ -148,7 +139,6 @@
         },
         // retrieves names of games for the user
         retrieveGameName: function () {
-            //TODO: activate when API requests work to reach stock server on port 7021
             new Application.Services.APIRequestService({
                 //type of request
                 'type': "POST",
@@ -174,12 +164,9 @@
                         m.id = data[i].gameId;
                         $('#stock-group > div > ul')[0].appendChild(m);
                         m.innerText = data[i].name;
-
                     }
-
                 }
             });
-
         },
 
 
@@ -188,42 +175,19 @@
                 //type of request
                 'type': "POST",
                 //endpoint for API to hit
-                'uri': "/games/add",
+                'uri': "/stocks/add",
                 'data': {
                     'gameId': gameId,
                     'stockName': stockName,
-                    'startvalue': "startvalue",
-                    'users': "users",
                     'authToken': window.authToken
+                },
+                'callback' : function(data) {
                 }
             });
         },
 
-        // send the game information to the server
-        // in an API service request
-        /*  (function (_this) {
-         new Application.Services.APIRequestService({
-         // the type of request
-         'type': 'POST',
-         // the endpoint for the request
-         'uri': '/games/add',
-         // send the data
-         'data': {
-         'name': gameName,
-         'startvalue': toWin,
-         'users': names,
-         'authToken': window.authToken
-         },
-         // the callback
-         'callback': function (data) {
-         _this.makeTableFromGames({'name': gameName, 'val': 10000});
-         }
-         });
-         },*/
-
         //select option from dropdown menu, submit, and add stock to game
         submit: function(e){
-            console.log (e.target.id);
             this.postNewStocktoGame(e.target.id);
         },
 
