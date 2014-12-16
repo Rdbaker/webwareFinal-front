@@ -67,7 +67,8 @@ module.exports = function(app, reqs) {
     var options = {};
     // set the locals
     var locals = {
-      ""
+      "authToken" : req.get.authToken,
+      "userId"    : req.get.userId
     };
 
     var fn = reqs.jade.compileFile('./views/parent.jade', options);
