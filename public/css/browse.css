@@ -1,9 +1,3 @@
-/*table, td, th {
-    margin-top: 100px;
-    }
-    th {
-        color: gray;
-}*/
 
 #browse-view{
     margin-bottom: 60px;
@@ -28,6 +22,10 @@
     font-size: 70px;
 }
 
+#game-name {
+    margin-top: 10px;
+}
+
 #stock-group{
     font-size: 20px;
 
@@ -37,10 +35,6 @@
     margin-top: 10px;
 }
 
-#cancel-btn{
-    height: 40px;
-    width: 30%;
-}
 
 #button-container{
     margin-top: 45px;
@@ -54,14 +48,19 @@
     font-size: 0.75em;
 }
 
+#dropdown{
+    margin: 10px;
+}
 
 #submit{
     width: 30%;
     position: relative;
 }
 
-#cancel{
+
+#cancel-btn{
     width: 30%;
     position: relative;
 }
+
 

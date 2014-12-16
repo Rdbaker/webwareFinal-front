@@ -14,7 +14,7 @@
                     //make an API request to populate
                     // stock table
 
-                    _this.makeBrowseStocksTable([{id: 100, name: 'test', price: 100}]);
+                   // _this.makeBrowseStocksTable([{id: 100, name: 'test', price: 100}]);
 
                     // close the new stock form
                     $("#add-stock-form", $(_this.el)).hide();
@@ -77,19 +77,17 @@
          }),*/
 
 
-
-
         // open the add stock form
-        addStock: function (e) {
+        addStock: function () {
             // open the form
             $("#add-stock-form", $(this.el)).slideDown();
         },
 
         // close the add stock form and clear the inputs
-        cancelAddStock: function () {
+        cancel: function () {
             var form = $("#add-stock-form", $(this.el));
             // close the form
-            form.slideUp();
+            form.slideUp('fast');
 
             // clear the form
             $('input', form).val("");
@@ -100,22 +98,37 @@
             // to the API
         },
 
-        retrieveAStock: function (stockId) {
-            //TODO: activate when API requests work to reach stock server on port 7021
-            //new Application.Services.APIRequestService({
-            //    // type of request
-            //    'type': "GET",
-            //    // endpoint for the API to hit
-            //    'uri': "/stock/"+stockId,
-            //    // callback function for the request
-            //    'callback': function (data) {
-            //        // append the data to browseview
-            //        // instead of asking for new data from the server
-            //        data = JSON.parse(data);
-            //        this.makeBrowseStocksTable(data);
-            //    }
-            //});
-        },
+        // validate stock
+       /* validateStock: function () {
+            // validate the form
+            var good = this.validateStock();
+
+            if (good) {
+                var gameName = $("#game-name").val();
+                //var toWin = $("#start-worth").val();
+                // var names = [];
+                // $('.add-user').each(function(ind, val) { names.push(val.value); });
+                (function (_this) {
+                    new Application.Services.APIRequestService({
+                        // the type of request
+                        'type': 'POST',
+                        // the endpoint for the request
+                        'uri': '/games',
+                        // send the data
+                        'data': {
+                            'name': gameName
+                            //'startvalue': toWin,
+                            //'users': names,
+                            //'authToken': window.authToken
+                        },
+                        // the callback
+                        'callback': function (data) {
+                            _this.makeTableFromGames({'name': gameName, 'val': 10000});
+                        }
+                    })
+                });
+            }
+        },*/
 
         retrieveCommonStockData: function () {
             //TODO: activate when API requests work to reach stock server on port 7021
@@ -134,26 +147,62 @@
             //});
 
         },
-
+        // retrives names of games for the user
         retrieveGameName: function () {
             //TODO: activate when API requests work to reach stock server on port 7021
-            //new Application.Services.APIRequestService({
-            //    // type of request
-            //    'type': "POST",
-            //    // endpoint for the API to hit
-            //    'uri': "/games",
-            //    // callback function for the request
-            //    'callback': function (data) {
-            //        // append the data to dropdown in browseview
-            //        // instead of asking for new data from the server
-            //        data = JSON.parse(data);
-            //        var = tr;
-            //        for (var i=0; i < data.length; i++){
-            //          tr = $('<tr/>;
-            //          tr.append("<td>" + data[].name + "</td>");
+            new Application.Services.APIRequestService({
+                //type of request
+                'type': "POST",
+                // endpoint for the API to hit
+                'uri': "/games",
+                // callback function for the request
+                'callback': function (data) {
+                    // append the data to dropdown in browseview
+                    // instead of asking for new data from the server
+                    data = JSON.parse(data);
 
-            //    }
-            //});
+                    // get an array of game names
+                    for (i=0; i<data.length; i++){
+                        //gameName = [];
+                        data[i].game_Id.hide();
+                        data[i].startvalue.hide();
+                        data[i].users.hide();
+                        data[i].name();
+
+                    }
+
+                }
+            });
+
+        },
+
+        // retrives names of games for the user
+        retrieveGameName: function () {
+            //TODO: activate when API requests work to reach stock server on port 7021
+            new Application.Services.APIRequestService({
+                //type of request
+                'type': "POST",
+                // endpoint for the API to hit
+                'uri': "/stocks/add",
+                // callback function for the request
+                'callback': function (data) {
+                    // append the data to dropdown in browseview
+                    // instead of asking for new data from the server
+                    data = JSON.parse(data);
+
+                    // get an array of game names
+                    for (i=0; i<data.name; i++){
+                        //gameName = [];
+                        data[i].game_Id.hide();
+                        data[i].startvalue.hide();
+                        data[i].users.hide();
+                        data[i].name();
+
+                    }
+
+                }
+            });
+
         },
 
             // send the game information to the server
@@ -179,15 +228,12 @@
 
         },*/
 
-        // todo: when user clicks on a a stock,
-        // have the div slide down and let them have the option
-        // to add it to their portfolio for a specific game
-        //(have a drop down of the games they're currently in)*/
+        // todo:  populate drop down with user's open games
 
 
         // set up the events
         events: {
-            'click #cancel': 'cancel',
+            'click #cancel-btn': 'cancel',
             'click #submit': 'submit',
             'click #browseStocks > tbody > tr': 'addStock'
         },
