@@ -22,7 +22,7 @@
 
                 });
             })(this);
-            //TODO: activate when API works and can reach port 7021
+            
             this.retrieveCommonStockData();
 
 
@@ -97,9 +97,9 @@
         },
 
         retrieveAStock: function (stockId) {
-            //TODO: activate when API requests work to reach stock server on port 7021
             new Application.Services.APIRequestService({
                 // type of request
+                'port' : "7021",
                 'type': "GET",
                 // endpoint for the API to hit
                 'uri': "/stock/"+stockId,
@@ -114,9 +114,9 @@
         },
 
         retrieveCommonStockData: function () {
-            //TODO: activate when API requests work to reach stock server on port 7021
             (function(_this) {
                 new Application.Services.APIRequestService({
+                    'port' : "7021",
                     // type of request
                     'type': "GET",
                     // endpoint for the API to hit
