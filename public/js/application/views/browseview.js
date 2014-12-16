@@ -145,7 +145,7 @@
                 'type': "POST",
                 // endpoint for the API to hit
                 'uri': "/games",
-                'data' : { 'authToken' : window.authToken },
+                'data': {'authToken': window.authToken},
                 // callback function for the request
                 'callback': function (data) {
                     // append the data to dropdown in browseview
@@ -153,14 +153,17 @@
                     data = JSON.parse(data);
                     console.log(data);
                     // get an array of game names
-                    for (i=0; i<data.length; i++){
+                    for (i = 0; i < data.length; i++) {
                         //gameName = [];
                         data[i].game_Id.hide();
                         data[i].startvalue.hide();
                         data[i].users.hide();
                         data[i].name();
-
+                        var m = document.createElement('li');
+                        $('#stock-group > div > ul').appendChild(m);
+                        m.innerText = data[i].name;
                     }
+
                 }
             });
 
@@ -173,7 +176,7 @@
          // the type of request
          'type': 'POST',
          // the endpoint for the request
-         'uri': '/games',
+         'uri': '/games/add',
          // send the data
          'data': {
          'name': gameName,
