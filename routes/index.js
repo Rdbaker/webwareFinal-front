@@ -33,6 +33,7 @@ module.exports = function(app, reqs) {
         } else {
           res.cookie('authToken', body['authToken']);
           res.cookie('userId', body['userId']);
+          res.cookie('username', req.body.username);
           res.redirect('/game');
         }
       }

@@ -20,7 +20,7 @@
             // the callback
             'callback' : function(data) {
               console.log(data);
-              _this.makeTableFromGames(JSON.parse(stringify));
+              _this.makeTableFromGames(JSON.parse(data));
             }
           });
 
@@ -76,15 +76,15 @@
     },
 
     // create the game
-    validateStock: function () {
+    createGame: function () {
       // validate the form
       var good = this.validateForm();
 
       if (good) {
         var gameName = $("#game-name").val();
-        //var toWin = $("#start-worth").val();
-        //var names = [];
-       // $('.add-user').each(function(ind, val) { names.push(val.value); });
+        var toWin = $("#start-worth").val();
+        var names = [];
+        $('.add-user').each(function(ind, val) { names.push(val.value); });
 
         // send the game information to the server
         // in an API service request
@@ -97,8 +97,8 @@
             // send the data
             'data'       : {
                              'name'          : gameName,
-                             'startvalue'    : toWin,
-                             'users'         : names,
+                             'startValue'    : toWin,
+                             'users[]'         : names,
                              'authToken'     : window.authToken
                            },
             // the callback
