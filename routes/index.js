@@ -31,11 +31,8 @@ module.exports = function(app, reqs) {
         if(body.code === 400) {
           res.redirect('/');
         } else {
-          console.log(body);
-          res.set({
-            'authToken' : body['authToken'],
-            'userId'    : body['userId']
-          });
+          res.cookie('authToken', body['authToken']);
+          res.cookie('userId', body['userId']);
           res.redirect('/game');
         }
       }
@@ -66,10 +63,7 @@ module.exports = function(app, reqs) {
     // set the options
     var options = {};
     // set the locals
-    var locals = {
-      "authToken" : req.get.authToken,
-      "userId"    : req.get.userId
-    };
+    var locals = {};
 
     var fn = reqs.jade.compileFile('./views/parent.jade', options);
     // send back the compiled jade file
