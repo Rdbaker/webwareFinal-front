@@ -19,7 +19,6 @@
             'data' : { 'authToken' : window.authToken },
             // the callback
             'callback' : function(data) {
-              console.log(data);
               _this.makeTableFromGames(JSON.parse(data));
             }
           });
@@ -33,9 +32,9 @@
     // make a table from the game names for the user
     makeTableFromGames: function (games) {
       // get the table body
-      var tbody = $("tbody", $("#games"));
+      var tbody = $("tbody", $("#games")).html("");
 
-      var td1, td2, tr;
+      var td1, td2, tr, delbtn;
       // for each game name
       for (var i = 0; i < games.length; i++) {
         // make a new row
@@ -48,6 +47,14 @@
         // append it to the table
         tr.appendChild(td1);
         tr.appendChild(td2);
+        // if the user is the creator
+        if(userId === games[i].creator) {
+          // allow them to delete the game
+          delbtn = document.createElement('div');
+          delbtn.className = "btn btn-sm btn-primary delete right-align";
+          delbtn.innerText = 'x';
+          tr.appendChild(delbtn);
+        }
         tr.id = games[i].gameId;
         tbody[0].appendChild(tr);
       }
@@ -104,12 +111,23 @@
             'data'       : {
                              'name'          : gameName,
                              'startValue'    : toWin,
-                             'users[]'       : uniqueNames,
+                             'users'         : JSON.stringify(uniqueNames),
                              'authToken'     : window.authToken
                            },
             // the callback
             'callback'   : function(data) {
-              _this.makeTableFromGames(data);
+              new Application.Services.APIRequestService({
+                // type of request
+                'type' : "POST",
+                // endpoint for the API to hit
+                'uri'  : "/games",
+                // the data to send
+                'data' : { 'authToken' : window.authToken },
+                // the callback
+                'callback' : function(data) {
+                  _this.makeTableFromGames(JSON.parse(data));
+                }
+              });
             }
           });
         })(this);
