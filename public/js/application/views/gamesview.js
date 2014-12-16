@@ -191,7 +191,7 @@
             networth = document.createElement("td");
             // put the content in the row
             $(username).text(data[i].username);
-            $(networth).text(data[i].amount);
+            $(networth).text(data[i].amount.toFixed(2));
             // append the content to the row
             row.appendChild(username);
             row.appendChild(networth);
@@ -202,48 +202,69 @@
       );
     },
 
-    retrieveMyStockPortfolioData: function (gamename) {
-      var gameNameTxt = gamename.currentTarget.childNodes[0].innerText;
-      (function(_this){
-        //new Application.Services.APIRequestService({
-        //    // type of request
-        //    'type': "GET",
-        //    // endpoint for the API to hit
-        //    'uri': "/"+gameNameTxt + "/stocks",
-        //    // callback function for the request
-        //    'callback': function (data) {
-        //        // append the data to Leader board table
-        //        // instead of asking for new data from the server
-        //
-        //        data = JSON.parse(data);
-        //        var tbody = $("tbody", $('#user-stock-view'));
-        //        var stockName, NumOwned, CostperShare, BuySell, row;
-        //        for (var i = 0; i < data.length; i++) {
-        //            // create the row and data for the row
-        //            row = document.createElement("tr");
-        //            stockName = document.createElement("td");
-        //            NumOwned = document.createElement("td");
-        //            CostperShare = document.createElement("td");
-        //            BuySell = _this.buySellInput();
-        //
-        //            // put the content in the row
-        //            $(stockName).text(data[i].stockName);
-        //            $(NumOwned).text(data[i].NumOwned);
-        //            $(CostperShare).text(data[i].CostperShare);
-        //
-        //            // append the content to the row
-        //            row.appendChild(stockName);
-        //            row.appendChild(NumOwned);
-        //            row.appendChild(CostperShare);
-        //            row.appendChild(BuySell);
-        //
-        //            // append the row to the body
-        //            tbody.append(row);
-        //        }
-        //    }
-        //});
-      })(this);
+    retrieveMyStockPortfolioData: function (event) {
+      // get the game id
+      var gameId = event.currentTarget.id;
 
+      (function(_this){
+        new Application.Services.APIRequestService({
+          // type of request
+          'type': "POST",
+          // data for the POST
+          'data':
+            {
+              'authToken' : window.authToken,
+              'gameId'    : gameId
+            },
+          // endpoint for the API to hit
+          'uri': "/stocks",
+          // callback function for the request
+          'callback': function (data) {
+            // append the data to Leader board table
+            // instead of asking for new data from the server
+            data = JSON.parse(data);
+            var stocks = data;
+            var stocksString = '';
+            for (j in stocks) {
+              stocksString = stocksString + ',' + stocks[j].stockName;
+            }
+            stocksString = stocksString.substring(1, stocksString.length);
+            if(!!stocksString) {
+              $.get('http://rous.wpi.edu:7021/stock/' + stocksString,
+                // callback function
+                function(data2) {
+                  data2 = JSON.parse(data2);
+                  for (k in data2) {
+                    var stockval = data2[k].askRealtime;
+                    if (stockval === 0) {
+                      stockval = data2[k].bidRealtime;
+                    }
+                    var tbody = $("tbody", $('#user-stock-view'));
+                    var stockName, NumOwned, CostperShare, BuySell, row;
+                    // create the row and data for the row
+                    row = document.createElement("tr");
+                    stockName = document.createElement("td");
+                    NumOwned = document.createElement("td");
+                    CostperShare = document.createElement("td");
+                    BuySell = _this.buySellInput();
+                    // put the content in the row
+                    $(stockName).text(data[k].stockName);
+                    $(NumOwned).text(data[k].currentShares);
+                    $(CostperShare).text(stockval.toFixed(2));
+                    // append the content to the row
+                    row.appendChild(stockName);
+                    row.appendChild(NumOwned);
+                    row.appendChild(CostperShare);
+                    row.appendChild(BuySell);
+                    // append the row to the body
+                    tbody.append(row);
+                  }
+                }
+              );
+            }
+          }
+       });
+      })(this);
     },
 
     addPlayer: function() {
@@ -267,7 +288,9 @@
 
       // assign the classes and properties
       sell.className = "btn btn-xs btn-primary sell";
-      buy.className = "btn btn-xs btn-primary buy";
+      buy.className = "btn btn-xs btn-success buy";
+      sell.innerText = '-';
+      buy.innerText = '+';
       input.type = 'text';
 
       // append the elements

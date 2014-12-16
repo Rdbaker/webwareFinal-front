@@ -14,8 +14,14 @@
       })(this);
     },
 
+    buyOrSell: function(e) {
+      console.log('hes');
+    },
+
     // set up the events
     events: {
+      'click .buy' : 'buyOrSell',
+      'click .sell' : 'buyOrSell'
     },
 
 
