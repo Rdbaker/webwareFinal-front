@@ -19,7 +19,6 @@
             'data' : { 'authToken' : window.authToken },
             // the callback
             'callback' : function(data) {
-              console.log(data);
               _this.makeTableFromGames(JSON.parse(data));
             }
           });
@@ -33,9 +32,9 @@
     // make a table from the game names for the user
     makeTableFromGames: function (games) {
       // get the table body
-      var tbody = $("tbody", $("#games"));
+      var tbody = $("tbody", $("#games")).html("");
 
-      var td1, td2, tr;
+      var td1, td2, tr, delbtn;
       // for each game name
       for (var i = 0; i < games.length; i++) {
         // make a new row
@@ -43,11 +42,20 @@
         td1 = document.createElement('td');
         td2 = document.createElement('td');
         td1.innerText = games[i].name;
-        td2.innerText = games[i].val;
+        td2.innerText = games[i].currentValue;
 
         // append it to the table
         tr.appendChild(td1);
         tr.appendChild(td2);
+        // if the user is the creator
+        if(userId === games[i].creator) {
+          // allow them to delete the game
+          delbtn = document.createElement('div');
+          delbtn.className = "btn btn-sm btn-primary delete right-align";
+          delbtn.innerText = 'x';
+          tr.appendChild(delbtn);
+        }
+        tr.id = games[i].gameId;
         tbody[0].appendChild(tr);
       }
     },
@@ -85,6 +93,11 @@
         var toWin = $("#start-worth").val();
         var names = [];
         $('.add-user').each(function(ind, val) { names.push(val.value); });
+        names.push(window.username)
+        var uniqueNames = [];
+        $.each(names, function(i, el){
+          if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+        });
 
         // send the game information to the server
         // in an API service request
@@ -98,12 +111,23 @@
             'data'       : {
                              'name'          : gameName,
                              'startValue'    : toWin,
-                             'users[]'         : names,
+                             'users'         : JSON.stringify(uniqueNames),
                              'authToken'     : window.authToken
                            },
             // the callback
             'callback'   : function(data) {
-              _this.makeTableFromGames({'name' : gameName, 'val' : 10000});
+              new Application.Services.APIRequestService({
+                // type of request
+                'type' : "POST",
+                // endpoint for the API to hit
+                'uri'  : "/games",
+                // the data to send
+                'data' : { 'authToken' : window.authToken },
+                // the callback
+                'callback' : function(data) {
+                  _this.makeTableFromGames(JSON.parse(data));
+                }
+              });
             }
           });
         })(this);
@@ -154,7 +178,7 @@
     // get the game's info and change its color on a click
     getGameInfo: function (e) {
       // remove any already chosen row
-      $('#warning', $('tbody', $(this.el))).removeClass('warning');
+      $('.warning', $('tbody', $(this.el))).removeClass('warning');
 
       // add it to the clicked row
       $(e.currentTarget).addClass('warning');
@@ -165,85 +189,100 @@
 
     },
 
-    retrieveLeaderBoardData: function (gamename) {
-
-      var gameNameTxt = gamename.currentTarget.childNodes[0].innerText;
-      //new Application.Services.APIRequestService({
-      //    // type of request
-      //    'type': "GET",
-      //    // endpoint for the API to hit
-      //    'uri': "/"+gameNameTxt + "/leaderboard",
-      //    // callback function for the request
-      //    'callback': function (data) {
-      //        // append the data to Leader board table
-      //        // instead of asking for new data from the server
-      //
-      //        data = JSON.parse(data);
-      //        var tbody = $("tbody", $('#leaderboard-view'));
-      //        var username, networth, row;
-      //        for (var i = 0; i < data.length; i++) {
-      //            // create the row and data for the row
-      //            row = document.createElement("tr");
-      //            username = document.createElement("td");
-      //            networth = document.createElement("td");
-      //
-      //            // put the content in the row
-      //            $(username).text(data[i].username);
-      //            $(networth).text(data[i].networth);
-      //
-      //            // append the content to the row
-      //            row.appendChild(username);
-      //            row.appendChild(networth);
-      //
-      //            // append the row to the body
-      //            tbody.append(row);
-      //        }
-      //    }
-      //});
+    retrieveLeaderBoardData: function (event) {
+      // get the game ID
+      var gameId = event.currentTarget.id;
+      // send the POST request
+      $.post('/leaderboard-data',
+        {
+          authToken: window.authToken,
+          gameId   : gameId
+        },
+        function(data) {
+          // clear the leaderboard
+          var tbody = $("tbody", $('#leaderboard-view')).html("");
+          var username, networth, row;
+          for (var i = 0; i < data.length; i++) {
+            // create the row and data for the row
+            row = document.createElement("tr");
+            username = document.createElement("td");
+            networth = document.createElement("td");
+            // put the content in the row
+            $(username).text(data[i].username);
+            $(networth).text(data[i].amount.toFixed(2));
+            // append the content to the row
+            row.appendChild(username);
+            row.appendChild(networth);
+            // append the row to the body
+            tbody.append(row);
+          }
+        }
+      );
     },
 
-    retrieveMyStockPortfolioData: function (gamename) {
-      var gameNameTxt = gamename.currentTarget.childNodes[0].innerText;
-      (function(_this){
-        //new Application.Services.APIRequestService({
-        //    // type of request
-        //    'type': "GET",
-        //    // endpoint for the API to hit
-        //    'uri': "/"+gameNameTxt + "/stocks",
-        //    // callback function for the request
-        //    'callback': function (data) {
-        //        // append the data to Leader board table
-        //        // instead of asking for new data from the server
-        //
-        //        data = JSON.parse(data);
-        //        var tbody = $("tbody", $('#user-stock-view'));
-        //        var stockName, NumOwned, CostperShare, BuySell, row;
-        //        for (var i = 0; i < data.length; i++) {
-        //            // create the row and data for the row
-        //            row = document.createElement("tr");
-        //            stockName = document.createElement("td");
-        //            NumOwned = document.createElement("td");
-        //            CostperShare = document.createElement("td");
-        //            BuySell = _this.buySellInput();
-        //
-        //            // put the content in the row
-        //            $(stockName).text(data[i].stockName);
-        //            $(NumOwned).text(data[i].NumOwned);
-        //            $(CostperShare).text(data[i].CostperShare);
-        //
-        //            // append the content to the row
-        //            row.appendChild(stockName);
-        //            row.appendChild(NumOwned);
-        //            row.appendChild(CostperShare);
-        //            row.appendChild(BuySell);
-        //
-        //            // append the row to the body
-        //            tbody.append(row);
-        //        }
-        //    }
-        //});
-      })(this);
+    retrieveMyStockPortfolioData: function (event) {
+      // get the game id
+      var gameId = event.currentTarget.id;
 
+      (function(_this){
+        new Application.Services.APIRequestService({
+          // type of request
+          'type': "POST",
+          // data for the POST
+          'data':
+            {
+              'authToken' : window.authToken,
+              'gameId'    : gameId
+            },
+          // endpoint for the API to hit
+          'uri': "/stocks",
+          // callback function for the request
+          'callback': function (data) {
+            // append the data to Leader board table
+            // instead of asking for new data from the server
+            data = JSON.parse(data);
+            var stocks = data;
+            var stocksString = '';
+            for (j in stocks) {
+              stocksString = stocksString + ',' + stocks[j].stockName;
+            }
+            stocksString = stocksString.substring(1, stocksString.length);
+            var tbody = $("tbody", $('#user-stock-view')).html("");
+            if(!!stocksString) {
+              $.get('http://rous.wpi.edu:7021/stock/' + stocksString,
+                // callback function
+                function(data2) {
+                  data2 = JSON.parse(data2);
+                  for (k in data2) {
+                    var stockval = data2[k].askRealtime;
+                    if (stockval === 0) {
+                      stockval = data2[k].bidRealtime;
+                    }
+                    var stockName, NumOwned, CostperShare, BuySell, row;
+                    // create the row and data for the row
+                    row = document.createElement("tr");
+                    stockName = document.createElement("td");
+                    NumOwned = document.createElement("td");
+                    CostperShare = document.createElement("td");
+                    BuySell = _this.buySellInput();
+                    // put the content in the row
+                    $(stockName).text(data[k].stockName);
+                    $(NumOwned).text(data[k].currentShares);
+                    $(CostperShare).text(stockval.toFixed(2));
+                    // append the content to the row
+                    row.appendChild(stockName);
+                    row.appendChild(NumOwned);
+                    row.appendChild(CostperShare);
+                    row.appendChild(BuySell);
+                    // append the row to the body
+                    tbody.append(row);
+                  }
+                }
+              );
+            }
+          }
+       });
+      })(this);
     },
 
     addPlayer: function() {
@@ -267,7 +306,9 @@
 
       // assign the classes and properties
       sell.className = "btn btn-xs btn-primary sell";
-      buy.className = "btn btn-xs btn-primary buy";
+      buy.className = "btn btn-xs btn-success buy";
+      sell.innerText = '-';
+      buy.innerText = '+';
       input.type = 'text';
 
       // append the elements
@@ -278,13 +319,30 @@
       return td;
     },
 
+    deleteGame: function(e) {
+      var gameId = e.currentTarget.parentElement.id;
+      var dat = {
+        'authToken' : window.authToken,
+        'gameId'    : gameId
+      };
+      new Application.Services.APIRequestService({
+        'type' : 'POST',
+        'uri'  : '/games/remove',
+        'data' : dat,
+        'callback' : function(data) {
+          $('#'+gameId).slideUp();
+        }
+      });
+    },
+
     // set up the events
     events: {
       'click #game-btn'           : 'newGame',
       'click #cancel-game'        : 'cancelGame',
       'click #create-game'        : 'createGame',
       'click #games > tbody > tr' : 'getGameInfo',
-      'click #add-player'         : 'addPlayer'
+      'click #add-player'         : 'addPlayer',
+      'click .delete'             : 'deleteGame'
     },
 
   });

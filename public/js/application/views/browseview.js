@@ -18,6 +18,8 @@
                     $("#add-stock-form", $(_this.el)).hide();
                     _this.retrieveCommonStockData();
                     _this.retrieveGameName();
+
+
                 });
             })(this);
             //TODO: activate when API works and can reach port 7021
@@ -42,12 +44,14 @@
 
                 ID.innerText = browseStocks[i].symbol;
                 Name.innerText = browseStocks[i].name;
-                if (browseStocks[i].askRealtime != 0) {
-                    Price.innerText = browseStocks[i].askRealtime;
+
+                if(browseStocks[i].askRealtime != 0){
+                    Price.innerText = (browseStocks[i].askRealtime).toFixed(2);
+
 
                 }
                 else {
-                    Price.innerText = browseStocks[i].bidRealtime;
+                    Price.innerText = (browseStocks[i].bidRealtime).toFixed(2);
                 }
 
                 // add it to the table
@@ -86,8 +90,11 @@
             // close the form
             form.slideUp('fast');
 
+
             // clear the form
             $('input', form).val("");
+            $('#modal').hide();
+
 
             //add a listener for each row to have something called hidden
             // and if each substring doesn't match the ID, hide the row
@@ -136,7 +143,7 @@
 
 
         },
-        // retrives names of games for the user
+        // retrieves names of games for the user
         retrieveGameName: function () {
             //TODO: activate when API requests work to reach stock server on port 7021
             new Application.Services.APIRequestService({
@@ -165,13 +172,13 @@
                         $('#stock-group > div > ul')[0].appendChild(m);
                         m.innerText = data[i].name;
 
-
                     }
 
                 }
             });
 
         },
+
 
         postNewStocktoGame: function (gameId, stockName) {
             new Application.Services.APIRequestService({
@@ -186,18 +193,30 @@
                     'users': "users",
                     'authToken': window.authToken
                 }
-            })
+            });
         },
 
-       selectFromMenu: function(e) {
-           // get dropdown menu option and add stock to game
-           if (e.target && e.target.nodeName == "li") {
-               console.log(e.target.val + "was clicked");
-               if (submit) {
-                   console.log("inside submit");
-               }
-           }
-       },
+        // send the game information to the server
+        // in an API service request
+        /*  (function (_this) {
+         new Application.Services.APIRequestService({
+         // the type of request
+         'type': 'POST',
+         // the endpoint for the request
+         'uri': '/games/add',
+         // send the data
+         'data': {
+         'name': gameName,
+         'startvalue': toWin,
+         'users': names,
+         'authToken': window.authToken
+         },
+         // the callback
+         'callback': function (data) {
+         _this.makeTableFromGames({'name': gameName, 'val': 10000});
+         }
+         });
+         },*/
 
         //select option from dropdown menu, submit, and add stock to game
         submit: function(e){

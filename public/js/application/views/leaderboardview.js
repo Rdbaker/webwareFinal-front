@@ -10,9 +10,6 @@
       (function(_this) {
         $.get('/leaderboard-view', function(data) {
           $(_this.el).html(data);
-          // make an API services request to get
-          // the leaderboard for this game
-          // and make a table from it
         });
       })(this);
     },

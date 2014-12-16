@@ -106,25 +106,32 @@ module.exports = function(app, reqs) {
           }
           stocksString = stocksString.substring(1, stocksString.length);
 
-          reqs.request.get(
-          {
-            url : 'http://rous.wpi.edu:7021/stock/' + stocksString
-          },
-          // callback function
-          function(err2, response2, body2) {
-            body2 = JSON.parse(body2);
-            for (k in body2) {
-              var toAdd = body2[k].askRealtime;
-              if (toAdd == 0) {
-                toAdd = body2[k].bidRealtime;
+          if(!!stocksString) {
+            reqs.request.get(
+            {
+              url : 'http://rous.wpi.edu:7021/stock/' + stocksString
+            },
+            // callback function
+            function(err2, response2, body2) {
+              body2 = JSON.parse(body2);
+              for (k in body2) {
+                var toAdd = body2[k].askRealtime;
+                if (toAdd == 0) {
+                  toAdd = body2[k].bidRealtime;
+                }
+                data[i].amount += Number(toAdd) * Number(stocks[j].currentShares);
               }
-              data[i].amount += Number(toAdd) * Number(stocks[j].currentShares);
-            }
+              if (data.length === body.length) {
+                data.sort(function(a, b) { return a.amount < b.amount });
+                res.send(data);
+              }
+            });
+          } else {
             if (data.length === body.length) {
-              data.sort(function(a, b) { return a.amount < b.amount });
-              res.send(data);
+                data.sort(function(a, b) { return a.amount < b.amount });
+                res.send(data);
             }
-          });
+          }
         }
       });
   });
