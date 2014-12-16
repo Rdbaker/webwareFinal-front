@@ -105,7 +105,7 @@ module.exports = function(app, reqs) {
             stocksString = stocksString + ',' + stocks[j].stockName;
           }
           stocksString = stocksString.substring(1, stocksString.length);
-
+/*
           if(!!stocksString) {
             reqs.request.get(
             {
@@ -133,8 +133,9 @@ module.exports = function(app, reqs) {
                 data.sort(function(a, b) { return a.amount < b.amount });
                 res.send(data);
             }
-          }
+          }*/
         }
+        res.send(data);
       });
   });
 };
