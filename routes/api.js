@@ -123,7 +123,7 @@ module.exports = function(app, reqs) {
                   data[i].amount += Number(toAdd) * Number(stocks[j].currentShares);
                 }
               }
-              if (data.length === body.length) {
+              if (data.length === body2.length) {
                 data.sort(function(a, b) { return a.amount < b.amount });
                 res.send(data);
               }
