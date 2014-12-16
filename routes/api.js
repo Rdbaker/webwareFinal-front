@@ -1,6 +1,6 @@
 module.exports = function(app, reqs) {
   // ------------ API endpoints -----------------
-  // this file is used to get the partials
+  // this file is used to get the partials or data
 
   // --------------- HOME PAGE VIEWS -----------------
   // GET the main game jade template

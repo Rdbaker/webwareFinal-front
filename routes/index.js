@@ -13,8 +13,13 @@ module.exports = function(app, reqs) {
 
   // POST to the login route
   app.post('/login', function(req, res) {
-    // logic for logging in
-    // then redirect to the home page
+    // send a post request to the API to login
+    console.log(req.body);
+    reqs.request('http://rous.wpi.edu:5028/login', function(err, response, body) {
+      
+    });
+
+
     res.redirect('/game');
   });
 

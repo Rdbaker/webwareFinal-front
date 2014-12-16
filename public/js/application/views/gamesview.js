@@ -10,10 +10,18 @@
       (function (_this) {
         $.get('/games-view', function (data) {
           $(_this.el).html(data);
-          // make an API services request to get
-          // the games for the user
-          // then make a table from it
-          _this.makeTableFromGames([{name: 'test', val: 100}]);
+          new Application.Services.APIRequestService({
+            // type of request
+            'type' : "POST",
+            // endpoint for the API to hit
+            'uri'  : "",
+            // the data to send
+            'data' : { 'authToken' : window.authToken },
+            // the callback
+            'callback' : function(data) {
+              _this.makeTableFromGames(JSON.parse(stringify));
+            }
+          });
 
           // close the new game form
           $("#new-game-form", $(_this.el)).hide();
@@ -60,6 +68,10 @@
 
       // get rid of the player inputs
       var players = $('.add-user', form).remove();
+
+      // make sure the form doesn't have errors
+      $("#game-name-group").removeClass('has-error');
+      $('#game-start-group').removeClass('has-error');
     },
 
     // create the game
