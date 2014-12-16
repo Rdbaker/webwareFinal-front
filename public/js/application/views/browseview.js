@@ -16,12 +16,12 @@
 
                     // close the new stock form
                     $("#add-stock-form", $(_this.el)).hide();
-
+                    _this.retrieveCommonStockData();
 
                 });
             })(this);
-            
-            this.retrieveCommonStockData();
+            //TODO: activate when API works and can reach port 7021
+
 
 
         },
@@ -37,6 +37,10 @@
                 Name = document.createElement('td');
                 Price = document.createElement('td');
                 tr = document.createElement('tr');
+                //add attributes to make modal appear
+              $("#browseStocks > tbody > tr").attr('data-toggle','modal');
+                $("#browseStocks > tbody > tr").attr('data-target','#modal');
+
                 ID.innerText = browseStocks[i].symbol;
                 Name.innerText = browseStocks[i].name;
                 if(browseStocks[i].askRealtime != 0){
@@ -92,7 +96,28 @@
             // to the API
         },
 
+
+        // retrieves a given stock with symbol stockId from port 7021
+        /*retrieveAStock: function (stockId) {
+            new Application.Services.APIRequestService({
+                // type of request
+                'port' : "7021",
+                'type': "GET",
+                // endpoint for the API to hit
+                'uri': "/stock/"+stockId,
+                // callback function for the request
+                'callback': function (data) {
+                    // append the data to browseview
+                    // instead of asking for new data from the server
+                    data = JSON.parse(data);
+                    this.makeBrowseStocksTable(data);
+                }
+            });*/
+        //},
+
+        // retrieves 200 common stocks from server on port 7021 from yahoo finance api
         retrieveCommonStockData: function () {
+
             (function(_this) {
                 new Application.Services.APIRequestService({
                     'port' : "7021",
