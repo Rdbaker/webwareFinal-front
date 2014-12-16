@@ -42,7 +42,7 @@
         td1 = document.createElement('td');
         td2 = document.createElement('td');
         td1.innerText = games[i].name;
-        td2.innerText = games[i].currentValue;
+        td2.innerText = games[i].currentValue.toFixed(2);
 
         // append it to the table
         tr.appendChild(td1);
