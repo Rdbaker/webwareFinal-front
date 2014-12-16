@@ -38,7 +38,7 @@
                 Price = document.createElement('td');
                 tr = document.createElement('tr');
                 //add attributes to make modal appear
-              $("#browseStocks > tbody > tr").attr('data-toggle','modal');
+                $("#browseStocks > tbody > tr").attr('data-toggle','modal');
                 $("#browseStocks > tbody > tr").attr('data-target','#modal');
 
                 ID.innerText = browseStocks[i].symbol;
@@ -99,20 +99,20 @@
 
         // retrieves a given stock with symbol stockId from port 7021
         /*retrieveAStock: function (stockId) {
-            new Application.Services.APIRequestService({
-                // type of request
-                'port' : "7021",
-                'type': "GET",
-                // endpoint for the API to hit
-                'uri': "/stock/"+stockId,
-                // callback function for the request
-                'callback': function (data) {
-                    // append the data to browseview
-                    // instead of asking for new data from the server
-                    data = JSON.parse(data);
-                    this.makeBrowseStocksTable(data);
-                }
-            });*/
+         new Application.Services.APIRequestService({
+         // type of request
+         'port' : "7021",
+         'type': "GET",
+         // endpoint for the API to hit
+         'uri': "/stock/"+stockId,
+         // callback function for the request
+         'callback': function (data) {
+         // append the data to browseview
+         // instead of asking for new data from the server
+         data = JSON.parse(data);
+         this.makeBrowseStocksTable(data);
+         }
+         });*/
         //},
 
         // retrieves 200 common stocks from server on port 7021 from yahoo finance api
@@ -166,28 +166,27 @@
 
         },
 
-            // send the game information to the server
-            // in an API service request
-              /*  (function (_this) {
-                    new Application.Services.APIRequestService({
-                        // the type of request
-                        'type': 'POST',
-                        // the endpoint for the request
-                        'uri': '/games',
-                        // send the data
-                        'data': {
-                            'name': gameName,
-                            'startvalue': toWin,
-                            'users': names,
-                            'authToken': window.authToken
-                        },
-                        // the callback
-                        'callback': function (data) {
-                            _this.makeTableFromGames({'name': gameName, 'val': 10000});
-                        }
-                    });
-
-        },*/
+        // send the game information to the server
+        // in an API service request
+        /*  (function (_this) {
+         new Application.Services.APIRequestService({
+         // the type of request
+         'type': 'POST',
+         // the endpoint for the request
+         'uri': '/games',
+         // send the data
+         'data': {
+         'name': gameName,
+         'startvalue': toWin,
+         'users': names,
+         'authToken': window.authToken
+         },
+         // the callback
+         'callback': function (data) {
+         _this.makeTableFromGames({'name': gameName, 'val': 10000});
+         }
+         });
+         },*/
 
         // todo:  populate drop down with user's open games
 
@@ -205,9 +204,5 @@
     // assign it to the global scope
     window.Application.Views.BrowseView = BrowseView;
 })(window, document, jQuery, undefined);
-
-
-
-
 
 

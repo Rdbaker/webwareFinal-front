@@ -15,12 +15,13 @@
 }
 
 #add-stock-form {
-    background-color: #eee;
+    background-color: lightgray;
     width: 50%;
     margin: 30px auto auto 25%;
     border-radius: 10px
     font-size: 70px;
 }
+
 
 #game-name {
     margin-top: 10px;
@@ -28,7 +29,6 @@
 
 #stock-group{
     font-size: 20px;
-
 }
 
 #stock{
@@ -38,6 +38,7 @@
 
 #button-container{
     margin-top: 45px;
+    background-color: lightgray;
 }
 
 #stock-name{
@@ -46,10 +47,6 @@
 
 .form-horizontal .control-label {
     font-size: 0.75em;
-}
-
-#dropdown{
-    margin: 10px;
 }
 
 #submit{
