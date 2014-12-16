@@ -18,6 +18,8 @@
                     $("#add-stock-form", $(_this.el)).hide();
                     _this.retrieveCommonStockData();
                     _this.retrieveGameName();
+
+
                 });
             })(this);
             //TODO: activate when API works and can reach port 7021
@@ -44,7 +46,7 @@
                 ID.innerText = browseStocks[i].symbol;
                 Name.innerText = browseStocks[i].name;
                 if(browseStocks[i].askRealtime != 0){
-                    Price.innerText = browseStocks[i].askRealtime;
+                    Price.innerText = (browseStocks[i].askRealtime).toFixed(2);
 
                 }
                 else{
@@ -86,6 +88,7 @@
             var form = $("#add-stock-form", $(this.el));
             // close the form
             form.slideUp('fast');
+
 
             // clear the form
             $('input', form).val("");
@@ -137,7 +140,7 @@
 
 
         },
-        // retrives names of games for the user
+        // retrieves names of games for the user
         retrieveGameName: function () {
             //TODO: activate when API requests work to reach stock server on port 7021
             new Application.Services.APIRequestService({
@@ -154,14 +157,14 @@
                     console.log(data);
                     // get an array of game names
                     for (i = 0; i < data.length; i++) {
-                        //gameName = [];
                         data[i].game_Id.hide();
                         data[i].startvalue.hide();
                         data[i].users.hide();
                         data[i].name();
                         var m = document.createElement('li');
+                        m.attr('value',""+i+"");
                         $('#stock-group > div > ul').appendChild(m);
-                        m.innerText = data[i].name;
+                        m.innerText = data[i].name +","+ data[i].game_Id.hide();
                     }
 
                 }
@@ -169,6 +172,28 @@
 
         },
 
+
+        AddGameName: function (game_id, name) {
+            //TODO: activate when API requests work to reach stock server on port 7021
+            new Application.Services.APIRequestService({
+                //type of request
+                'type': "POST",
+                // endpoint for the API to hit
+                'uri': "/games/add",
+                'data': {   'game_id' : game_id,
+                            'game_name': name,
+                            'authToken': window.authToken},
+                // callback function for the request
+                'callback': function (data) {
+                    // append the data to dropdown in browseview
+                    // instead of asking for new data from the server
+                    data = JSON.parse(data);
+
+
+                }
+            });
+
+        },
         // send the game information to the server
         // in an API service request
         /*  (function (_this) {
