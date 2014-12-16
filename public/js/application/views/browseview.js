@@ -23,7 +23,6 @@
             //TODO: activate when API works and can reach port 7021
 
 
-
         },
 
         //add test id, stockname, price table and sort by most popular
@@ -38,16 +37,16 @@
                 Price = document.createElement('td');
                 tr = document.createElement('tr');
                 //add attributes to make modal appear
-                $("#browseStocks > tbody > tr").attr('data-toggle','modal');
-                $("#browseStocks > tbody > tr").attr('data-target','#modal');
+                $("#browseStocks > tbody > tr").attr('data-toggle', 'modal');
+                $("#browseStocks > tbody > tr").attr('data-target', '#modal');
 
                 ID.innerText = browseStocks[i].symbol;
                 Name.innerText = browseStocks[i].name;
-                if(browseStocks[i].askRealtime != 0){
+                if (browseStocks[i].askRealtime != 0) {
                     Price.innerText = browseStocks[i].askRealtime;
 
                 }
-                else{
+                else {
                     Price.innerText = browseStocks[i].bidRealtime;
                 }
 
@@ -118,9 +117,9 @@
         // retrieves 200 common stocks from server on port 7021 from yahoo finance api
         retrieveCommonStockData: function () {
 
-            (function(_this) {
+            (function (_this) {
                 new Application.Services.APIRequestService({
-                    'port' : "7021",
+                    'port': "7021",
                     // type of request
                     'type': "GET",
                     // endpoint for the API to hit
@@ -154,14 +153,19 @@
                     console.log(data);
                     // get an array of game names
                     for (i = 0; i < data.length; i++) {
+
                         //gameName = [];
-                        data[i].game_Id.hide();
-                        data[i].startvalue.hide();
-                        data[i].users.hide();
-                        data[i].name();
+                        data[i].gameId;
+                        data[i].startvalue;
+                        data[i].users;
+                        data[i].name;
+
                         var m = document.createElement('li');
-                        $('#stock-group > div > ul').appendChild(m);
+                        m.id = data[i].gameId;
+                        $('#stock-group > div > ul')[0].appendChild(m);
                         m.innerText = data[i].name;
+
+
                     }
 
                 }
@@ -169,36 +173,44 @@
 
         },
 
-        // send the game information to the server
-        // in an API service request
-        /*  (function (_this) {
-         new Application.Services.APIRequestService({
-         // the type of request
-         'type': 'POST',
-         // the endpoint for the request
-         'uri': '/games/add',
-         // send the data
-         'data': {
-         'name': gameName,
-         'startvalue': toWin,
-         'users': names,
-         'authToken': window.authToken
-         },
-         // the callback
-         'callback': function (data) {
-         _this.makeTableFromGames({'name': gameName, 'val': 10000});
-         }
-         });
-         },*/
+        postNewStocktoGame: function (gameId, stockName) {
+            new Application.Services.APIRequestService({
+                //type of request
+                'type': "POST",
+                //endpoint for API to hit
+                'uri': "/games/add",
+                'data': {
+                    'gameId': gameId,
+                    'stockName': stockName,
+                    'startvalue': "startvalue",
+                    'users': "users",
+                    'authToken': window.authToken
+                }
+            })
+        },
 
-        // todo:  populate drop down with user's open games
+       selectFromMenu: function(e) {
+           // get dropdown menu option and add stock to game
+           if (e.target && e.target.nodeName == "li") {
+               console.log(e.target.val + "was clicked");
+               if (submit) {
+                   console.log("inside submit");
+               }
+           }
+       },
 
+        //select option from dropdown menu, submit, and add stock to game
+        submit: function(e){
+            console.log (e.target.id);
+            this.postNewStocktoGame(e.target.id);
+        },
 
         // set up the events
         events: {
-            'click #cancel-btn': 'cancel',
-            'click #submit': 'submit',
-            'click #browseStocks > tbody > tr': 'addStock'
+            'click #cancel-btn'                 : 'cancel',
+            'click #browseStocks > tbody > tr'  : 'addStock',
+            'click #stock-group > div > ul > li': 'submit'
+
         },
 
 
